@@ -4,7 +4,7 @@
 
 # simple_regex
 
-**[Documentation](https://ljr1981.github.io/simple_regex/)** | **[GitHub](https://github.com/ljr1981/simple_regex)**
+**[Documentation](https://simple-eiffel.github.io/simple_regex/)** | **[GitHub](https://github.com/simple-eiffel/simple_regex)**
 
 High-level regex library for Eiffel providing pattern matching, replacement, splitting, and a fluent builder API with pre-built validation patterns.
 
