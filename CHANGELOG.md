@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Testing config updates, AutoTest fixes, .gitignore cleanup
+- Add SCOOP concurrency capability
+- Migrate to simple_testing library
+- Fix README.md encoding (was UTF-16, now UTF-8)
+- Complete simple_regex library implementation
+- first commit
+
 ## [1.0.0] - 2025-12-08
 
 ### Added
