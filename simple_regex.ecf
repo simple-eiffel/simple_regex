@@ -31,8 +31,7 @@
 		<file_rule>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
-		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
-		<library name="testing_ext" location="$TESTING_EXT\testing_ext.ecf" readonly="false"/>
+		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
 		<cluster name="gobo_tests" location=".\gobo_tests\" recursive="true"/>
 	</target>
 
@@ -42,8 +41,7 @@
 		<file_rule>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
-		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
-		<library name="testing_ext" location="$TESTING_EXT\testing_ext.ecf" readonly="false"/>
+		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
 		<cluster name="tests" location=".\tests\" recursive="true"/>
 	</target>
 
