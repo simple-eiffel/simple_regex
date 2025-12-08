@@ -5,337 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>simple_regex - Eiffel Regex Library</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>simple_regex</h1>
-            <p class="tagline">High-level regex library for Eiffel with fluent builder and pre-built patterns</p>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="simple_* logo" class="logo">
+        </div>
+        <h1>simple_regex</h1>
+        <p class="tagline">High-Level Regular Expressions for Eiffel</p>
+        <div class="badges">
+            <span class="badge badge-version">v1.0.0</span>
+            <span class="badge badge-license">MIT</span>
         </div>
     </header>
 
     <nav>
-        <div class="container">
-            <ul>
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#classes">Classes</a></li>
-                <li><a href="#installation">Installation</a></li>
-                <li><a href="#examples">Examples</a></li>
-                <li><a href="#patterns">Patterns</a></li>
-                <li><a href="#api-integration">API Integration</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#api">API Reference</a></li>
+            <li><a href="https://github.com/simple-eiffel/simple_regex">GitHub</a></li>
+        </ul>
     </nav>
 
-    <main class="container">
+    <main>
         <section id="overview">
             <h2>Overview</h2>
-            <p>simple_regex provides a clean, high-level API for regular expressions in Eiffel. It wraps Gobo's PCRE engine while providing modern conveniences like a fluent builder, pre-built validation patterns, and integration with the FOUNDATION_API architecture.</p>
-
-            <h3>Key Features</h3>
-            <ul>
-                <li><strong>Pattern Matching</strong> - Match once or find all occurrences with captured groups</li>
-                <li><strong>Replacement</strong> - Replace first or all matches with group backreferences</li>
-                <li><strong>Splitting</strong> - Split strings by regex patterns</li>
-                <li><strong>Fluent Builder</strong> - Construct patterns programmatically with a readable API</li>
-                <li><strong>Pre-built Patterns</strong> - Email, URL, IP, phone, date, UUID, passwords, and more</li>
-                <li><strong>Safety Features</strong> - Pattern validation, ReDoS detection, input escaping</li>
-                <li><strong>Immutable Options</strong> - Case insensitive, multiline, dotall modes</li>
-            </ul>
+            <p>
+                <strong>simple_regex</strong> provides a clean, high-level API for regular expressions in Eiffel.
+                It wraps Gobo's PCRE engine while providing modern conveniences like a fluent builder,
+                pre-built validation patterns, and Design by Contract support.
+            </p>
         </section>
 
-        <section id="classes">
-            <h2>Classes</h2>
-
-            <div class="class-card">
-                <h3>SIMPLE_REGEX</h3>
-                <p>Core regex engine with matching, replacement, and splitting operations.</p>
-                <ul>
-                    <li>Create from pattern string with optional flags</li>
-                    <li>Match once or find all occurrences</li>
-                    <li>Replace first or all matches</li>
-                    <li>Split strings by pattern</li>
-                    <li>Immutable option setters (case_insensitive, multiline, dotall)</li>
-                    <li>Pattern validation and complexity analysis</li>
-                </ul>
-            </div>
-
-            <div class="class-card">
-                <h3>SIMPLE_REGEX_MATCH</h3>
-                <p>Result of a match operation with full context.</p>
-                <ul>
-                    <li>Matched value and position (start, end)</li>
-                    <li>Captured groups access by index</li>
-                    <li>Context: text before and after match</li>
-                    <li>Match status (is_matched, is_empty)</li>
-                </ul>
-            </div>
-
-            <div class="class-card">
-                <h3>SIMPLE_REGEX_MATCH_LIST</h3>
-                <p>Collection of matches with iteration support.</p>
-                <ul>
-                    <li>Count and indexed access</li>
-                    <li>First/last match shortcuts</li>
-                    <li>Across loop iteration</li>
-                    <li>Convert to string list</li>
-                </ul>
-            </div>
-
-            <div class="class-card">
-                <h3>SIMPLE_REGEX_BUILDER</h3>
-                <p>Fluent API for constructing regex patterns programmatically.</p>
-                <ul>
-                    <li>Literals with automatic escaping</li>
-                    <li>Character classes: digit, word, whitespace, custom</li>
-                    <li>Quantifiers: *, +, ?, {n}, {n,m}, lazy variants</li>
-                    <li>Groups: capturing, non-capturing, atomic</li>
-                    <li>Anchors: start, end, word boundary</li>
-                    <li>Lookahead/lookbehind (positive and negative)</li>
-                    <li>Backreferences, recursion, conditionals</li>
-                </ul>
-            </div>
-
-            <div class="class-card">
-                <h3>SIMPLE_REGEX_PATTERNS</h3>
-                <p>Library of pre-built, tested patterns for common validation tasks.</p>
-                <ul>
-                    <li>Web: email, URL, domain, IPv4, MAC address</li>
-                    <li>Phone: US format with various separators</li>
-                    <li>Dates: ISO, US, European formats</li>
-                    <li>Time: 12-hour and 24-hour formats</li>
-                    <li>IDs: UUID, hex color, username, slug</li>
-                    <li>Financial: credit card, currency</li>
-                    <li>Security: password strength validation</li>
-                    <li>US-specific: ZIP code, SSN</li>
-                </ul>
+        <section id="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>SIMPLE_REGEX</h4>
+                    <p>Core regex engine with matching, replacement, and splitting operations</p>
+                </div>
+                <div class="feature-card">
+                    <h4>SIMPLE_REGEX_MATCH</h4>
+                    <p>Match results with groups, positions, and context</p>
+                </div>
+                <div class="feature-card">
+                    <h4>SIMPLE_REGEX_MATCH_LIST</h4>
+                    <p>Collection of matches with iteration support</p>
+                </div>
+                <div class="feature-card">
+                    <h4>SIMPLE_REGEX_BUILDER</h4>
+                    <p>Fluent API for constructing patterns programmatically</p>
+                </div>
+                <div class="feature-card">
+                    <h4>SIMPLE_REGEX_PATTERNS</h4>
+                    <p>Pre-built patterns: email, URL, IP, phone, date, UUID</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Safety Features</h4>
+                    <p>Pattern validation, ReDoS detection, input escaping</p>
+                </div>
             </div>
         </section>
 
         <section id="installation">
             <h2>Installation</h2>
-            <h3>Environment Variable</h3>
-            <p>Set the SIMPLE_REGEX environment variable:</p>
-            <pre><code>SIMPLE_REGEX=D:\prod\simple_regex</code></pre>
-
-            <h3>ECF Configuration</h3>
-            <p>Add to your project's ECF file:</p>
-            <pre><code>&lt;library name="simple_regex" location="$SIMPLE_REGEX/simple_regex.ecf"/&gt;</code></pre>
+            <pre><code>&lt;library name="simple_regex" location="$SIMPLE_REGEX\simple_regex.ecf"/&gt;</code></pre>
         </section>
 
-        <section id="examples">
-            <h2>Examples</h2>
+        <section id="usage">
+            <h2>Quick Start</h2>
+            <div class="quick-start">
+                <pre><code><span class="keyword">local</span>
+    regex: <span class="type">SIMPLE_REGEX</span>
+    match: <span class="type">SIMPLE_REGEX_MATCH</span>
+    patterns: <span class="type">SIMPLE_REGEX_PATTERNS</span>
+<span class="keyword">do</span>
+    <span class="comment">-- Basic matching</span>
+    <span class="keyword">create</span> regex.<span class="feature">make</span> (<span class="string">"\d{3}-\d{4}"</span>)
+    match := regex.<span class="feature">match</span> (<span class="string">"Call 555-1234 today"</span>)
+    <span class="keyword">print</span> (match.<span class="feature">value</span>)  <span class="comment">-- "555-1234"</span>
 
-            <h3>Basic Matching</h3>
-            <pre><code>local
-    regex: SIMPLE_REGEX
-    match: SIMPLE_REGEX_MATCH
-do
-    create regex.make ("\d{3}-\d{4}")
-    match := regex.match ("Call 555-1234 today")
+    <span class="comment">-- Find all matches</span>
+    <span class="keyword">across</span> regex.<span class="feature">match_all</span> (<span class="string">"a@b.com and c@d.org"</span>) <span class="keyword">as</span> m <span class="keyword">loop</span>
+        <span class="keyword">print</span> (m.<span class="feature">value</span>)
+    <span class="keyword">end</span>
 
-    if match.is_matched then
-        print (match.value)           -- "555-1234"
-        print (match.start_position)  -- 6
-        print (match.end_position)    -- 13
-    end
-end</code></pre>
+    <span class="comment">-- Replacement</span>
+    <span class="keyword">create</span> regex.<span class="feature">make</span> (<span class="string">"\s+"</span>)
+    <span class="keyword">print</span> (regex.<span class="feature">replace_all</span> (<span class="string">"hello   world"</span>, <span class="string">" "</span>))
+    <span class="comment">-- "hello world"</span>
 
-            <h3>Find All Matches</h3>
-            <pre><code>local
-    regex: SIMPLE_REGEX
-    matches: SIMPLE_REGEX_MATCH_LIST
-do
-    create regex.make ("\w+@\w+\.\w+")
-    matches := regex.match_all ("Contact: a@b.com and c@d.org")
-
-    print (matches.count)  -- 2
-    across matches as m loop
-        print (m.value)    -- "a@b.com", "c@d.org"
-    end
-end</code></pre>
-
-            <h3>Replacement</h3>
-            <pre><code>local
-    regex: SIMPLE_REGEX
-do
-    create regex.make ("\s+")
-    print (regex.replace_all ("hello   world", " "))
-    -- Output: "hello world"
-
-    create regex.make ("(\w+)\s+(\w+)")
-    print (regex.replace_first ("John Smith", "$2, $1"))
-    -- Output: "Smith, John"
-end</code></pre>
-
-            <h3>Fluent Builder</h3>
-            <pre><code>local
-    builder: SIMPLE_REGEX_BUILDER
-    regex: SIMPLE_REGEX
-do
-    create builder.make
-    builder := builder.start_of_string
-    builder := builder.literal ("Hello")
-    builder := builder.whitespace.one_or_more
-    builder := builder.word_char.one_or_more
-    builder := builder.end_of_string
-
-    regex := builder.to_regex
-    -- Pattern: ^Hello\s+\w+$
-
-    if regex.match ("Hello World").is_matched then
-        print ("Matched!")
-    end
-end</code></pre>
-
-            <h3>Capturing Groups</h3>
-            <pre><code>local
-    regex: SIMPLE_REGEX
-    match: SIMPLE_REGEX_MATCH
-do
-    create regex.make ("(\d{4})-(\d{2})-(\d{2})")
-    match := regex.match ("Date: 2025-12-07")
-
-    if match.is_matched then
-        print (match.group (0))  -- "2025-12-07" (full match)
-        print (match.group (1))  -- "2025" (year)
-        print (match.group (2))  -- "12" (month)
-        print (match.group (3))  -- "07" (day)
-    end
-end</code></pre>
+    <span class="comment">-- Pre-built patterns</span>
+    <span class="keyword">create</span> patterns.<span class="feature">make</span>
+    <span class="keyword">if</span> patterns.<span class="feature">email</span>.<span class="feature">match</span> (<span class="string">"user@example.com"</span>).<span class="feature">is_matched</span> <span class="keyword">then</span>
+        <span class="keyword">print</span> (<span class="string">"Valid email%N"</span>)
+    <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+            </div>
         </section>
 
-        <section id="patterns">
-            <h2>Pre-built Patterns</h2>
+        <section id="api">
+            <h2>API Reference</h2>
 
-            <h3>Email and Web</h3>
-            <pre><code>local
-    patterns: SIMPLE_REGEX_PATTERNS
-do
-    create patterns.make
+            <div class="api-section">
+                <h3>SIMPLE_REGEX</h3>
+                <div class="signature">make (pattern: STRING)</div>
+                <div class="signature">match (subject: STRING): SIMPLE_REGEX_MATCH</div>
+                <div class="signature">match_all (subject: STRING): SIMPLE_REGEX_MATCH_LIST</div>
+                <div class="signature">replace_first (subject, replacement: STRING): STRING</div>
+                <div class="signature">replace_all (subject, replacement: STRING): STRING</div>
+                <div class="signature">split (subject: STRING): LIST [STRING]</div>
+                <div class="signature">case_insensitive: SIMPLE_REGEX</div>
+                <div class="signature">multiline: SIMPLE_REGEX</div>
+            </div>
 
-    if patterns.email.match ("user@example.com").is_matched then
-        print ("Valid email")
-    end
+            <div class="api-section">
+                <h3>SIMPLE_REGEX_MATCH</h3>
+                <div class="signature">value: STRING</div>
+                <div class="signature">start_position, end_position: INTEGER</div>
+                <div class="signature">group (index: INTEGER): STRING</div>
+                <div class="signature">group_count: INTEGER</div>
+                <div class="signature">is_matched: BOOLEAN</div>
+            </div>
 
-    if patterns.url.match ("https://example.com/path").is_matched then
-        print ("Valid URL")
-    end
+            <div class="api-section">
+                <h3>SIMPLE_REGEX_BUILDER</h3>
+                <div class="signature">literal (text: STRING): SIMPLE_REGEX_BUILDER</div>
+                <div class="signature">digit, word_char, whitespace: SIMPLE_REGEX_BUILDER</div>
+                <div class="signature">one_or_more, zero_or_more, optional: SIMPLE_REGEX_BUILDER</div>
+                <div class="signature">group, non_capturing_group: SIMPLE_REGEX_BUILDER</div>
+                <div class="signature">start_of_string, end_of_string: SIMPLE_REGEX_BUILDER</div>
+                <div class="signature">to_regex: SIMPLE_REGEX</div>
+            </div>
 
-    if patterns.ipv4.match ("192.168.1.1").is_matched then
-        print ("Valid IPv4")
-    end
-end</code></pre>
-
-            <h3>Dates and Times</h3>
-            <pre><code>-- ISO date: YYYY-MM-DD
-patterns.date_iso.match ("2025-12-07")
-
--- US date: MM/DD/YYYY
-patterns.date_us.match ("12/07/2025")
-
--- European date: DD.MM.YYYY
-patterns.date_eu.match ("07.12.2025")
-
--- 24-hour time: HH:MM:SS
-patterns.time_24h.match ("14:30:00")
-
--- 12-hour time: HH:MM AM/PM
-patterns.time_12h.match ("2:30 PM")</code></pre>
-
-            <h3>Security Validation</h3>
-            <pre><code>-- Strong password: 8+ chars, upper, lower, digit, special
-if patterns.strong_password.match (user_password).is_matched then
-    print ("Password meets requirements")
-end
-
--- Medium password: 6+ chars, letters and numbers
-if patterns.medium_password.match (user_password).is_matched then
-    print ("Password acceptable")
-end</code></pre>
-
-            <h3>US-Specific</h3>
-            <pre><code>-- ZIP code: 12345 or 12345-6789
-patterns.zip_code.match ("12345-6789")
-
--- SSN: 123-45-6789
-patterns.ssn.match ("123-45-6789")
-
--- Phone: (555) 123-4567
-patterns.phone_us.match ("(555) 123-4567")</code></pre>
-        </section>
-
-        <section id="api-integration">
-            <h2>API Integration</h2>
-            <p>simple_regex integrates with the FOUNDATION_API architecture. Access regex functionality through your API layer:</p>
-
-            <h3>Using via FOUNDATION_API</h3>
-            <pre><code>class MY_SERVICE
-inherit
-    FOUNDATION_API
-
-feature -- Validation
-
-    validate_user_input (email, phone: STRING): BOOLEAN
-        do
-            Result := is_valid_email_pattern (email) and
-                      is_valid_phone_pattern (phone)
-        end
-
-feature -- Text Processing
-
-    extract_all_urls (text: STRING): ARRAYED_LIST [STRING_32]
-        do
-            Result := regex_all_matches (regex_patterns.url_pattern, text)
-        end
-
-    sanitize_whitespace (text: STRING): STRING_32
-        do
-            Result := regex_replace_all ("\s+", text, " ")
-        end
-end</code></pre>
-        </section>
-
-        <section id="safety">
-            <h2>Safety Features</h2>
-            <p>simple_regex includes tools to help prevent regex-related security issues:</p>
-
-            <h3>Pattern Validation</h3>
-            <pre><code>if regex.is_valid_pattern ("[a-z]+") then
-    -- Safe to use
-end</code></pre>
-
-            <h3>Input Escaping</h3>
-            <pre><code>-- Escape user input before using in pattern
-safe_pattern := regex.escape (user_input)
-create regex.make (safe_pattern)</code></pre>
-
-            <h3>ReDoS Detection</h3>
-            <pre><code>-- Check pattern complexity
-complexity := regex.pattern_complexity ("(a+)+")
-
-if regex.is_potentially_dangerous ("(a+)+") then
-    -- Avoid using with untrusted input
-end</code></pre>
-        </section>
-
-        <section id="design">
-            <h2>Design Influences</h2>
-            <p>simple_regex draws inspiration from:</p>
-            <ul>
-                <li><strong>Gobo Eiffel Regexp</strong> - Underlying PCRE implementation</li>
-                <li><strong>Java Pattern/Matcher</strong> - API structure and match result design</li>
-                <li><strong>JavaScript RegExp</strong> - Convenience methods and flag handling</li>
-                <li><strong>C# Regex</strong> - Match collection and group access patterns</li>
-            </ul>
+            <div class="api-section">
+                <h3>SIMPLE_REGEX_PATTERNS</h3>
+                <div class="signature">email, url, ipv4, domain: SIMPLE_REGEX</div>
+                <div class="signature">phone_us, zip_code, ssn: SIMPLE_REGEX</div>
+                <div class="signature">date_iso, date_us, date_eu: SIMPLE_REGEX</div>
+                <div class="signature">time_12h, time_24h: SIMPLE_REGEX</div>
+                <div class="signature">uuid, hex_color, username, slug: SIMPLE_REGEX</div>
+                <div class="signature">strong_password, medium_password: SIMPLE_REGEX</div>
+            </div>
         </section>
     </main>
 
     <footer>
-        <div class="container">
-            <p>simple_regex - Part of the Simple Libraries collection</p>
-            <p>Author: Larry Rix</p>
-        </div>
+        <p>simple_regex is part of the <a href="https://github.com/simple-eiffel">simple_*</a> library collection.</p>
+        <p class="copyright">&copy; 2024-2025 Larry Rix. MIT License.</p>
     </footer>
 </body>
 </html>
