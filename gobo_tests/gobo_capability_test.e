@@ -2,7 +2,7 @@ note
 	description: "Empirical test of Gobo regex capabilities"
 	date: "$Date$"
 	revision: "$Revision$"
-	testing: "type/manual"
+	testing: "covers"
 
 class
 	GOBO_CAPABILITY_TEST

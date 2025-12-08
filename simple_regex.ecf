@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-22-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-22-0 http://www.eiffel.com/developers/xml/configuration-1-22-0.xsd" name="simple_regex" uuid="8307BC9E-1639-406F-8E36-09CF5DBB92B2" library_target="simple_regex">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd" name="simple_regex" uuid="8307BC9E-1639-406F-8E36-09CF5DBB92B2" library_target="simple_regex">
 	<description>Simple Regex - High-level regex API for Eiffel</description>
-
 	<target name="simple_regex">
 		<root all_classes="true"/>
 		<file_rule>
@@ -13,18 +12,17 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<capability>
-			<concurrency support="scoop" use="thread"/>
+			<concurrency support="scoop"/>
 			<void_safety support="all"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="gobo_regexp" location="$ISE_LIBRARY\contrib\library\gobo\library\regexp\src\library.ecf"/>
 		<library name="gobo_kernel" location="$ISE_LIBRARY\contrib\library\gobo\library\kernel\src\library.ecf"/>
-		<library name="gobo_structure" location="$ISE_LIBRARY\contrib\library\gobo\library\structure\src\library.ecf"/>
+		<library name="gobo_regexp" location="$ISE_LIBRARY\contrib\library\gobo\library\regexp\src\library.ecf"/>
 		<library name="gobo_string" location="$ISE_LIBRARY\contrib\library\gobo\library\string\src\library.ecf"/>
+		<library name="gobo_structure" location="$ISE_LIBRARY\contrib\library\gobo\library\structure\src\library.ecf"/>
 		<library name="gobo_utility" location="$ISE_LIBRARY\contrib\library\gobo\library\utility\src\library.ecf"/>
 		<cluster name="src" location=".\src\" recursive="true"/>
 	</target>
-
 	<target name="gobo_capability_tests" extends="simple_regex">
 		<description>Test target to verify Gobo regex capabilities</description>
 		<root class="GOBO_TEST_RUNNER" feature="make"/>
@@ -34,7 +32,6 @@
 		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
 		<cluster name="gobo_tests" location=".\gobo_tests\" recursive="true"/>
 	</target>
-
 	<target name="simple_regex_tests" extends="simple_regex">
 		<description>Full test suite for simple_regex</description>
 		<root class="SIMPLE_REGEX_TEST_APP" feature="make"/>
@@ -44,5 +41,4 @@
 		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
 		<cluster name="tests" location=".\tests\" recursive="true"/>
 	</target>
-
 </system>
