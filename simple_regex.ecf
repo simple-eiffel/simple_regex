@@ -34,11 +34,11 @@
 	</target>
 	<target name="simple_regex_tests" extends="simple_regex">
 		<description>Full test suite for simple_regex</description>
-		<root class="SIMPLE_REGEX_TEST_APP" feature="make"/>
+		<root class="TEST_APP" feature="make"/>
 		<file_rule>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
 		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
-		<cluster name="test_classes" location=".\testing\" recursive="true"/>
+		<cluster name="tests" location=".\testing\" recursive="true"/>
 	</target>
 </system>
