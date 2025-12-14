@@ -1,0 +1,9 @@
+{
+  "name": "simple_regex",
+  "version": "0.1.0",
+  "description": "Simple Regex - High-level regex API for Eiffel",
+  "author": "Larry Rix",
+  "license": "MIT",
+  "category": "parser",
+  "keywords": ["regex", "pattern", "matching", "pcre"]
+}
