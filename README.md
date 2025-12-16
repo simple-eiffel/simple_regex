@@ -60,11 +60,11 @@ end
 ### Standalone Installation
 
 1. Clone the repository
-2. Set environment variable: `SIMPLE_REGEX=D:\path\to\simple_regex`
+2. Set the ecosystem environment variable (one-time setup for all simple_* libraries): `SIMPLE_EIFFEL=D:\prod`
 3. Add to your ECF:
 
 ```xml
-<library name="simple_regex" location="$SIMPLE_REGEX\simple_regex.ecf"/>
+<library name="simple_regex" location="$SIMPLE_EIFFEL/simple_regex/simple_regex.ecf"/>
 ```
 
 ## Quick Start (Zero-Configuration)
