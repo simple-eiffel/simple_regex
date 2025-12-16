@@ -29,7 +29,7 @@
 		<file_rule>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
-		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
+		<library name="simple_testing" location="$SIMPLE_EIFFEL/simple_testing/simple_testing.ecf" readonly="false"/>
 		<cluster name="gobo_tests" location=".\gobo_tests\" recursive="true"/>
 	</target>
 	<target name="simple_regex_tests" extends="simple_regex">
@@ -38,7 +38,7 @@
 		<file_rule>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
-		<library name="simple_testing" location="$SIMPLE_TESTING\simple_testing.ecf" readonly="false"/>
+		<library name="simple_testing" location="$SIMPLE_EIFFEL/simple_testing/simple_testing.ecf" readonly="false"/>
 		<cluster name="tests" location=".\testing\" recursive="true"/>
 	</target>
 </system>
