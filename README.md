@@ -67,7 +67,55 @@ end
 <library name="simple_regex" location="$SIMPLE_REGEX\simple_regex.ecf"/>
 ```
 
-## Quick Start
+## Quick Start (Zero-Configuration)
+
+Use `SIMPLE_REGEX_QUICK` for the simplest possible regex operations:
+
+```eiffel
+local
+    rx: SIMPLE_REGEX_QUICK
+    words: ARRAYED_LIST [STRING]
+do
+    create rx.make
+
+    -- Check if pattern matches
+    if rx.matches ("[a-z]+", "hello") then ...
+
+    -- Find first match
+    if attached rx.find ("\w+", "Hello World") as word then
+        print (word)  -- "Hello"
+    end
+
+    -- Find all matches
+    words := rx.find_all ("\w+", "Hello World")  -- ["Hello", "World"]
+
+    -- Replace first match
+    print (rx.replace ("World", "Eiffel", "Hello World"))  -- "Hello Eiffel"
+
+    -- Replace all matches
+    print (rx.replace_all ("\d+", "X", "a1b2c3"))  -- "aXbXcX"
+
+    -- Split by pattern
+    words := rx.split ("\s+", "Hello   World")  -- ["Hello", "World"]
+
+    -- Common validators
+    if rx.is_email ("user@example.com") then ...
+    if rx.is_url ("https://example.com") then ...
+    if rx.is_phone ("555-123-4567") then ...
+    if rx.is_ipv4 ("192.168.1.1") then ...
+
+    -- Extract all emails/URLs/numbers from text
+    emails := rx.extract_emails (document)
+    urls := rx.extract_urls (document)
+    numbers := rx.extract_numbers (document)
+
+    -- Capture groups
+    groups := rx.find_groups ("(\w+)@(\w+)", "user@host")
+    -- ["user", "host"]
+end
+```
+
+## Standard API (Full Control)
 
 ```eiffel
 local

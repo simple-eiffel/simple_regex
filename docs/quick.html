@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMPLE_REGEX_QUICK - Zero-Configuration Regex</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="simple_* logo" class="logo">
+        </div>
+        <h1>SIMPLE_REGEX_QUICK</h1>
+        <p class="tagline">Zero-Configuration Regex for Beginners</p>
+        <div class="badges">
+            <span class="badge badge-version">v1.0.0</span>
+            <span class="badge badge-license">MIT</span>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#api">API Reference</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                <strong>SIMPLE_REGEX_QUICK</strong> provides one-liner regex operations plus
+                built-in validators for common patterns like email, URL, phone, and IP addresses.
+            </p>
+            <p>For pattern builders and advanced features, use SIMPLE_REGEX directly.</p>
+        </section>
+
+        <section id="quick-start">
+            <h2>Quick Start</h2>
+<pre><code><span class="keyword">local</span>
+    rx: <span class="type">SIMPLE_REGEX_QUICK</span>
+    words: <span class="type">ARRAYED_LIST</span> [<span class="type">STRING</span>]
+<span class="keyword">do</span>
+    <span class="keyword">create</span> rx.make
+
+    <span class="comment">-- Check if pattern matches</span>
+    <span class="keyword">if</span> rx.matches (<span class="string">"[a-z]+"</span>, <span class="string">"hello"</span>) <span class="keyword">then</span> ...
+
+    <span class="comment">-- Find first match</span>
+    <span class="keyword">if</span> <span class="keyword">attached</span> rx.find (<span class="string">"\w+"</span>, <span class="string">"Hello World"</span>) <span class="keyword">as</span> word <span class="keyword">then</span>
+        print (word)  <span class="comment">-- "Hello"</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">-- Find all matches</span>
+    words := rx.find_all (<span class="string">"\w+"</span>, <span class="string">"Hello World"</span>)  <span class="comment">-- ["Hello", "World"]</span>
+
+    <span class="comment">-- Replace first match</span>
+    print (rx.replace (<span class="string">"World"</span>, <span class="string">"Eiffel"</span>, <span class="string">"Hello World"</span>))  <span class="comment">-- "Hello Eiffel"</span>
+
+    <span class="comment">-- Replace all matches</span>
+    print (rx.replace_all (<span class="string">"\d+"</span>, <span class="string">"X"</span>, <span class="string">"a1b2c3"</span>))  <span class="comment">-- "aXbXcX"</span>
+
+    <span class="comment">-- Split by pattern</span>
+    words := rx.split (<span class="string">"\s+"</span>, <span class="string">"Hello   World"</span>)  <span class="comment">-- ["Hello", "World"]</span>
+
+    <span class="comment">-- Common validators</span>
+    <span class="keyword">if</span> rx.is_email (<span class="string">"user@example.com"</span>) <span class="keyword">then</span> ...
+    <span class="keyword">if</span> rx.is_url (<span class="string">"https://example.com"</span>) <span class="keyword">then</span> ...
+    <span class="keyword">if</span> rx.is_phone (<span class="string">"555-123-4567"</span>) <span class="keyword">then</span> ...
+    <span class="keyword">if</span> rx.is_ipv4 (<span class="string">"192.168.1.1"</span>) <span class="keyword">then</span> ...
+
+    <span class="comment">-- Extract all emails/URLs/numbers from text</span>
+    emails := rx.extract_emails (document)
+    urls := rx.extract_urls (document)
+    numbers := rx.extract_numbers (document)
+
+    <span class="comment">-- Capture groups</span>
+    groups := rx.find_groups (<span class="string">"(\w+)@(\w+)"</span>, <span class="string">"user@host"</span>)
+    <span class="comment">-- ["user", "host"]</span>
+<span class="keyword">end</span></code></pre>
+        </section>
+
+        <section id="api">
+            <h2>API Reference</h2>
+
+            <h3>Matching</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>matches (pattern, text)</code></td><td>Does pattern match anywhere?</td></tr>
+                <tr><td><code>matches_full (pattern, text)</code></td><td>Does pattern match entire text?</td></tr>
+            </table>
+
+            <h3>Finding</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>find (pattern, text)</code></td><td>Find first match</td></tr>
+                <tr><td><code>find_all (pattern, text)</code></td><td>Find all matches</td></tr>
+                <tr><td><code>find_groups (pattern, text)</code></td><td>Get capture groups</td></tr>
+                <tr><td><code>count_matches (pattern, text)</code></td><td>Count matches</td></tr>
+            </table>
+
+            <h3>Replacing</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>replace (pattern, replacement, text)</code></td><td>Replace first match</td></tr>
+                <tr><td><code>replace_all (pattern, replacement, text)</code></td><td>Replace all matches</td></tr>
+            </table>
+
+            <h3>Splitting</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>split (pattern, text)</code></td><td>Split text by pattern</td></tr>
+            </table>
+
+            <h3>Common Validators</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>is_email (text)</code></td><td>Valid email format?</td></tr>
+                <tr><td><code>is_url (text)</code></td><td>Valid URL format?</td></tr>
+                <tr><td><code>is_phone (text)</code></td><td>Valid phone format?</td></tr>
+                <tr><td><code>is_ipv4 (text)</code></td><td>Valid IPv4 address?</td></tr>
+            </table>
+
+            <h3>Extractors</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>extract_emails (text)</code></td><td>Extract all email addresses</td></tr>
+                <tr><td><code>extract_urls (text)</code></td><td>Extract all URLs</td></tr>
+                <tr><td><code>extract_numbers (text)</code></td><td>Extract all numbers</td></tr>
+            </table>
+
+            <h3>Utilities</h3>
+            <table>
+                <tr><th>Feature</th><th>Description</th></tr>
+                <tr><td><code>escape (text)</code></td><td>Escape regex special characters</td></tr>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>Part of the <a href="https://github.com/simple-eiffel">Simple Eiffel</a> ecosystem</p>
+    </footer>
+</body>
+</html>
