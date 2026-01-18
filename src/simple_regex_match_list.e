@@ -94,8 +94,8 @@ feature -- Conversion
 			-- All matched values as strings
 		do
 			create Result.make (count)
-			across internal_list as m loop
-				Result.extend (m.item.value)
+			across internal_list as ic_m loop
+				Result.extend (ic_m.item.value)
 			end
 		ensure
 			result_attached: Result /= Void

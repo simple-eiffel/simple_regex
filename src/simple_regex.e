@@ -225,8 +225,8 @@ feature -- Splitting
 				if l_regex.has_matched then
 					l_parts := l_regex.split
 					create Result.make (l_parts.count)
-					across l_parts as p loop
-						Result.extend (p.item.to_string_32)
+					across l_parts as ic_p loop
+						Result.extend (ic_p.item.to_string_32)
 					end
 				else
 					create Result.make (1)
@@ -406,8 +406,8 @@ feature -- Convenience Class Methods (with caching)
 				if l_regex.has_matched then
 					l_parts := l_regex.split
 					create Result.make (l_parts.count)
-					across l_parts as p loop
-						Result.extend (p.item.to_string_32)
+					across l_parts as ic_p loop
+						Result.extend (ic_p.item.to_string_32)
 					end
 				else
 					create Result.make (1)
