@@ -89,8 +89,6 @@ feature -- Building: Literals
 
 	literal (a_text: READABLE_STRING_GENERAL): like Current
 			-- Add escaped literal text (special chars escaped)
-		require
-			text_attached: a_text /= Void
 		local
 			i: INTEGER
 			c: CHARACTER_32
@@ -112,8 +110,6 @@ feature -- Building: Literals
 
 	raw (a_pattern: READABLE_STRING_GENERAL): like Current
 			-- Add raw pattern text (no escaping)
-		require
-			pattern_attached: a_pattern /= Void
 		do
 			internal_pattern.append_string_general (a_pattern)
 			has_quantifiable_element := a_pattern.count > 0
@@ -206,7 +202,6 @@ feature -- Building: Character Classes
 	one_of (a_chars: READABLE_STRING_GENERAL): like Current
 			-- Match any single character from set [...]
 		require
-			chars_attached: a_chars /= Void
 			not_empty: not a_chars.is_empty
 		do
 			internal_pattern.append_character ('[')
@@ -222,7 +217,6 @@ feature -- Building: Character Classes
 	none_of (a_chars: READABLE_STRING_GENERAL): like Current
 			-- Match any single character NOT in set [^...]
 		require
-			chars_attached: a_chars /= Void
 			not_empty: not a_chars.is_empty
 		do
 			internal_pattern.append_string ("[^")
@@ -257,7 +251,6 @@ feature -- Building: Unicode
 	unicode_property (a_property: READABLE_STRING_GENERAL): like Current
 			-- Match Unicode property \p{property}
 		require
-			property_attached: a_property /= Void
 			not_empty: not a_property.is_empty
 		do
 			internal_pattern.append_string ("\p{")
@@ -273,7 +266,6 @@ feature -- Building: Unicode
 	unicode_not_property (a_property: READABLE_STRING_GENERAL): like Current
 			-- Match NOT Unicode property \P{property}
 		require
-			property_attached: a_property /= Void
 			not_empty: not a_property.is_empty
 		do
 			internal_pattern.append_string ("\P{")

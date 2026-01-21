@@ -17,14 +17,13 @@ feature {NONE} -- Initialization
 
 	make (a_subject: READABLE_STRING_GENERAL)
 			-- Create empty match list for subject
-		require
-			subject_attached: a_subject /= Void
 		do
 			subject := a_subject
 			create internal_list.make (10)
 		ensure
 			subject_set: subject = a_subject
 			empty: is_empty
+			model_empty: model.is_empty
 		end
 
 feature -- Access
@@ -38,6 +37,7 @@ feature -- Access
 			Result := internal_list.count
 		ensure
 			non_negative: Result >= 0
+			model_consistent: Result = model.count
 		end
 
 	item (i: INTEGER): SIMPLE_REGEX_MATCH
@@ -48,6 +48,7 @@ feature -- Access
 			Result := internal_list [i]
 		ensure
 			result_attached: Result /= Void
+			model_consistent: Result = model [i]
 		end
 
 	first: SIMPLE_REGEX_MATCH
@@ -58,6 +59,7 @@ feature -- Access
 			Result := internal_list.first
 		ensure
 			result_attached: Result /= Void
+			model_consistent: Result = model.first
 		end
 
 	last: SIMPLE_REGEX_MATCH
@@ -68,6 +70,7 @@ feature -- Access
 			Result := internal_list.last
 		ensure
 			result_attached: Result /= Void
+			model_consistent: Result = model.last
 		end
 
 feature -- Status
@@ -78,6 +81,7 @@ feature -- Status
 			Result := internal_list.is_empty
 		ensure
 			definition: Result = (count = 0)
+			model_consistent: Result = model.is_empty
 		end
 
 	has_matches: BOOLEAN
@@ -86,6 +90,7 @@ feature -- Status
 			Result := not is_empty
 		ensure
 			definition: Result = (count > 0)
+			model_consistent: Result = not model.is_empty
 		end
 
 feature -- Conversion
@@ -123,13 +128,26 @@ feature {SIMPLE_REGEX} -- Modification
 
 	extend (a_match: SIMPLE_REGEX_MATCH)
 			-- Add a match to the list
-		require
-			match_attached: a_match /= Void
 		do
 			internal_list.extend (a_match)
 		ensure
 			count_increased: count = old count + 1
 			has_match: internal_list.has (a_match)
+			model_extended: model |=| (old model.deep_twin & a_match)
+		end
+
+feature -- Model
+
+	model: MML_SEQUENCE [SIMPLE_REGEX_MATCH]
+			-- Mathematical model of match sequence
+		do
+			create Result
+			across internal_list as ic loop
+				Result := Result & ic.item
+			end
+		ensure
+			result_attached: Result /= Void
+			count_consistent: Result.count = count
 		end
 
 feature {NONE} -- Implementation
@@ -140,5 +158,6 @@ feature {NONE} -- Implementation
 invariant
 	subject_attached: subject /= Void
 	internal_list_attached: internal_list /= Void
+	count_non_negative: count >= 0
 
 end

@@ -7,6 +7,12 @@ note
 class
 	SIMPLE_REGEX_MATCH
 
+inherit
+	ANY
+		redefine
+			is_equal
+		end
+
 create
 	make_matched,
 	make_not_matched
@@ -17,10 +23,7 @@ feature {NONE} -- Initialization
 			a_start, a_end: INTEGER; a_groups: ARRAYED_LIST [detachable STRING_32])
 			-- Create a successful match result
 		require
-			subject_attached: a_subject /= Void
-			value_attached: a_value /= Void
 			valid_positions: a_start >= 1 and a_start <= a_end + 1
-			groups_attached: a_groups /= Void
 		do
 			subject := a_subject
 			internal_value := a_value
@@ -39,8 +42,6 @@ feature {NONE} -- Initialization
 
 	make_not_matched (a_subject: READABLE_STRING_GENERAL)
 			-- Create an unsuccessful match result
-		require
-			subject_attached: a_subject /= Void
 		do
 			subject := a_subject
 			internal_value := {STRING_32} ""
@@ -51,6 +52,23 @@ feature {NONE} -- Initialization
 		ensure
 			not_matched: not is_matched
 			subject_set: subject = a_subject
+		end
+
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+			-- Is `other` equal to current match?
+		do
+			if is_matched = other.is_matched then
+				if is_matched then
+					Result := start_position = other.start_position and then
+						end_position = other.end_position and then
+						value.same_string (other.value)
+				else
+					-- Both not matched
+					Result := True
+				end
+			end
 		end
 
 feature -- Status
@@ -110,6 +128,7 @@ feature -- Groups
 			end
 		ensure
 			non_negative: Result >= 0
+			model_consistent: Result = (groups_model.count - 1).max (0)
 		end
 
 	group (n: INTEGER): detachable STRING_32
@@ -128,6 +147,7 @@ feature -- Groups
 			Result := internal_groups.twin
 		ensure
 			result_attached: Result /= Void
+			model_consistent: Result.count = groups_model.count
 		end
 
 feature -- Context
@@ -163,6 +183,20 @@ feature -- Context
 			result_attached: Result /= Void
 		end
 
+feature -- Model
+
+	groups_model: MML_SEQUENCE [detachable STRING_32]
+			-- Mathematical model of captured groups
+		do
+			create Result
+			across internal_groups as ic loop
+				Result := Result & ic.item
+			end
+		ensure
+			result_attached: Result /= Void
+			count_consistent: Result.count = internal_groups.count
+		end
+
 feature {NONE} -- Implementation
 
 	internal_value: STRING_32
@@ -177,5 +211,6 @@ invariant
 	internal_groups_attached: internal_groups /= Void
 	matched_has_value: is_matched implies internal_value.count >= 0
 	positions_valid: is_matched implies (start_position >= 1 and start_position <= end_position + 1)
+	length_non_negative: is_matched implies (end_position - start_position + 1) >= 0
 
 end

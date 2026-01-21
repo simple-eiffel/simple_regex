@@ -48,7 +48,6 @@ feature -- Matching
 			-- Does pattern match anywhere in text?
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			Result := regex.is_match (a_pattern, a_text)
 		end
@@ -57,7 +56,6 @@ feature -- Matching
 			-- Does pattern match entire text?
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			Result := regex.is_match ("^" + a_pattern + "$", a_text)
 		end
@@ -66,7 +64,6 @@ feature -- Matching
 			-- Alias for matches.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			Result := matches (a_pattern, a_text)
 		end
@@ -77,7 +74,6 @@ feature -- Finding
 			-- Find first match of pattern in text.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			if attached regex.first_match_for (a_pattern, a_text) as l_r then Result := l_r.to_string_8 end
 		end
@@ -86,7 +82,6 @@ feature -- Finding
 			-- Find all matches of pattern in text.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			create Result.make (10); across regex.all_matches_for (a_pattern, a_text) as ic loop Result.extend (ic.item.to_string_8) end
 			if Result = Void then
@@ -101,7 +96,6 @@ feature -- Finding
 			-- Example: rx.find_groups ("(\w+)@(\w+)", "user@host") -- ["user", "host"]
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			create Result.make (0) -- TODO: implement capture groups
 			if Result = Void then
@@ -117,8 +111,6 @@ feature -- Replacing
 			-- Replace first match of pattern.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			replacement_not_void: a_replacement /= Void
-			text_not_void: a_text /= Void
 		do
 			Result := regex.replace_first_match (a_pattern, a_text, a_replacement).to_string_8
 			if Result = Void then
@@ -132,8 +124,6 @@ feature -- Replacing
 			-- Replace all matches of pattern.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			replacement_not_void: a_replacement /= Void
-			text_not_void: a_text /= Void
 		do
 			Result := regex.replace_all_matches (a_pattern, a_text, a_replacement).to_string_8
 			if Result = Void then
@@ -149,7 +139,6 @@ feature -- Splitting
 			-- Split text by pattern.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			create Result.make (10); across regex.split_by_pattern (a_pattern, a_text) as ic loop Result.extend (ic.item.to_string_8) end
 			if Result = Void then
@@ -164,16 +153,12 @@ feature -- Common Pattern Shortcuts
 
 	is_email (a_text: STRING): BOOLEAN
 			-- Does text look like an email address?
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := matches ("^[a-zA-Z0-9._%%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", a_text)
 		end
 
 	is_url (a_text: STRING): BOOLEAN
 			-- Does text look like a URL?
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := matches ("^https?://[^\s]+$", a_text)
 		end
@@ -181,24 +166,18 @@ feature -- Common Pattern Shortcuts
 	is_phone (a_text: STRING): BOOLEAN
 			-- Does text look like a phone number?
 			-- Matches common formats: 123-456-7890, (123) 456-7890, +1-123-456-7890
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := matches ("^[\+]?[(]?[0-9]{1,3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$", a_text)
 		end
 
 	is_ipv4 (a_text: STRING): BOOLEAN
 			-- Does text look like an IPv4 address?
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := matches ("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", a_text)
 		end
 
 	extract_emails (a_text: STRING): ARRAYED_LIST [STRING]
 			-- Extract all email addresses from text.
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := find_all ("[a-zA-Z0-9._%%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", a_text)
 		ensure
@@ -207,8 +186,6 @@ feature -- Common Pattern Shortcuts
 
 	extract_urls (a_text: STRING): ARRAYED_LIST [STRING]
 			-- Extract all URLs from text.
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := find_all ("https?://[^\s]+", a_text)
 		ensure
@@ -217,8 +194,6 @@ feature -- Common Pattern Shortcuts
 
 	extract_numbers (a_text: STRING): ARRAYED_LIST [STRING]
 			-- Extract all numbers from text.
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := find_all ("-?[0-9]+\.?[0-9]*", a_text)
 		ensure
@@ -229,8 +204,6 @@ feature -- Utility
 
 	escape (a_text: STRING): STRING
 			-- Escape regex special characters in text.
-		require
-			text_not_void: a_text /= Void
 		do
 			Result := regex.escape (a_text)
 			if Result = Void then
@@ -244,7 +217,6 @@ feature -- Utility
 			-- Count number of pattern matches in text.
 		require
 			pattern_not_empty: not a_pattern.is_empty
-			text_not_void: a_text /= Void
 		do
 			Result := find_all (a_pattern, a_text).count
 		end

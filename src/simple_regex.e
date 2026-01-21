@@ -55,11 +55,11 @@ feature {NONE} -- Initialization
 
 	make_from_pattern (a_pattern: READABLE_STRING_GENERAL)
 			-- Create and compile pattern
-		require
-			pattern_attached: a_pattern /= Void
 		do
 			default_create
 			compile (a_pattern)
+		ensure
+			pattern_set: attached pattern as p and then p.same_string_general (a_pattern)
 		end
 
 feature -- Compilation
@@ -68,8 +68,6 @@ feature -- Compilation
 	set_pattern,
 	load_pattern (a_pattern: READABLE_STRING_GENERAL)
 			-- Compile pattern for matching
-		require
-			pattern_attached: a_pattern /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -106,8 +104,6 @@ feature -- Pattern Validation
 
 	is_valid_pattern (a_pattern: READABLE_STRING_GENERAL): BOOLEAN
 			-- Is pattern syntactically valid?
-		require
-			pattern_attached: a_pattern /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -125,7 +121,6 @@ feature -- Matching
 			-- Match subject against compiled pattern
 		require
 			compiled: is_compiled
-			subject_attached: a_subject /= Void
 		do
 			check attached internal_regex as l_regex then
 				l_regex.match (a_subject)
@@ -142,7 +137,6 @@ feature -- Matching
 			-- Find all matches in subject
 		require
 			compiled: is_compiled
-			subject_attached: a_subject /= Void
 		local
 			l_match: SIMPLE_REGEX_MATCH
 		do
@@ -171,8 +165,6 @@ feature -- Replacement
 			-- Use \n\ for group references (e.g., \1\, \2\)
 		require
 			compiled: is_compiled
-			subject_attached: a_subject /= Void
-			replacement_attached: a_replacement /= Void
 		do
 			check attached internal_regex as l_regex then
 				l_regex.match (a_subject)
@@ -193,8 +185,6 @@ feature -- Replacement
 			-- Use \n\ for group references (e.g., \1\, \2\)
 		require
 			compiled: is_compiled
-			subject_attached: a_subject /= Void
-			replacement_attached: a_replacement /= Void
 		do
 			check attached internal_regex as l_regex then
 				l_regex.match (a_subject)
@@ -216,7 +206,6 @@ feature -- Splitting
 			-- Split subject by pattern
 		require
 			compiled: is_compiled
-			subject_attached: a_subject /= Void
 		local
 			l_parts: ARRAY [STRING]
 		do
@@ -289,9 +278,6 @@ feature -- Convenience Class Methods (with caching)
 	contains_pattern (a_pattern, a_subject: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does subject contain a match for pattern?
 			-- Pattern is cached after first compilation
-		require
-			pattern_attached: a_pattern /= Void
-			subject_attached: a_subject /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -304,9 +290,6 @@ feature -- Convenience Class Methods (with caching)
 
 	first_match_for (a_pattern, a_subject: READABLE_STRING_GENERAL): detachable STRING_32
 			-- First matching substring, or Void if no match
-		require
-			pattern_attached: a_pattern /= Void
-			subject_attached: a_subject /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -321,9 +304,6 @@ feature -- Convenience Class Methods (with caching)
 
 	all_matches_for (a_pattern, a_subject: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]
 			-- All matching substrings
-		require
-			pattern_attached: a_pattern /= Void
-			subject_attached: a_subject /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -345,10 +325,6 @@ feature -- Convenience Class Methods (with caching)
 
 	replace_first_match (a_pattern, a_subject, a_replacement: READABLE_STRING_GENERAL): STRING_32
 			-- Replace first match of pattern in subject
-		require
-			pattern_attached: a_pattern /= Void
-			subject_attached: a_subject /= Void
-			replacement_attached: a_replacement /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -369,10 +345,6 @@ feature -- Convenience Class Methods (with caching)
 
 	replace_all_matches (a_pattern, a_subject, a_replacement: READABLE_STRING_GENERAL): STRING_32
 			-- Replace all matches of pattern in subject
-		require
-			pattern_attached: a_pattern /= Void
-			subject_attached: a_subject /= Void
-			replacement_attached: a_replacement /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 		do
@@ -393,9 +365,6 @@ feature -- Convenience Class Methods (with caching)
 
 	split_by_pattern (a_pattern, a_subject: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]
 			-- Split subject by pattern
-		require
-			pattern_attached: a_pattern /= Void
-			subject_attached: a_subject /= Void
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
 			l_parts: ARRAY [STRING]
@@ -428,8 +397,6 @@ feature -- Safety
 	quote,
 	literal (a_literal: READABLE_STRING_GENERAL): STRING_32
 			-- Escape special regex characters in literal for safe matching
-		require
-			literal_attached: a_literal /= Void
 		local
 			i: INTEGER
 			c: CHARACTER_32
@@ -450,8 +417,6 @@ feature -- Safety
 	pattern_complexity (a_pattern: READABLE_STRING_GENERAL): INTEGER
 			-- Heuristic ReDoS risk score (1-10)
 			-- Higher scores indicate potentially dangerous patterns
-		require
-			pattern_attached: a_pattern /= Void
 		local
 			l_nested_quantifiers: INTEGER
 			l_alternations: INTEGER
@@ -509,8 +474,6 @@ feature -- Safety
 
 	is_potentially_dangerous (a_pattern: READABLE_STRING_GENERAL): BOOLEAN
 			-- Is pattern potentially vulnerable to ReDoS?
-		require
-			pattern_attached: a_pattern /= Void
 		do
 			Result := pattern_complexity (a_pattern) >= Dangerous_complexity_threshold
 		end
@@ -526,9 +489,6 @@ feature {NONE} -- Implementation
 	create_match_result (a_regex: RX_PCRE_REGULAR_EXPRESSION;
 			a_subject: READABLE_STRING_GENERAL): SIMPLE_REGEX_MATCH
 			-- Create match result from Gobo regex state
-		require
-			regex_attached: a_regex /= Void
-			subject_attached: a_subject /= Void
 		local
 			l_groups: ARRAYED_LIST [detachable STRING_32]
 			i: INTEGER
@@ -568,8 +528,6 @@ feature {NONE} -- Implementation
 
 	apply_options (a_regex: RX_PCRE_REGULAR_EXPRESSION)
 			-- Apply current options to regex
-		require
-			regex_attached: a_regex /= Void
 		do
 			a_regex.set_caseless (is_caseless)
 			a_regex.set_multiline (is_multiline)
@@ -603,8 +561,6 @@ feature {NONE} -- Pattern Cache
 
 	cached_regex (a_pattern: READABLE_STRING_GENERAL): RX_PCRE_REGULAR_EXPRESSION
 			-- Get or create cached regex for pattern
-		require
-			pattern_attached: a_pattern /= Void
 		local
 			l_key: STRING_32
 		do

@@ -16,6 +16,7 @@
 			<void_safety support="all"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="simple_mml" location="$SIMPLE_EIFFEL\simple_mml\simple_mml.ecf" readonly="false"/>
 		<library name="gobo_kernel" location="$GOBO_LIBRARY/kernel/library.ecf"/>
 		<library name="gobo_regexp" location="$GOBO_LIBRARY/regexp/library.ecf"/>
 		<library name="gobo_string" location="$GOBO_LIBRARY/string/library.ecf"/>

@@ -51,8 +51,6 @@ feature -- Email and Web Patterns
 
 	is_email (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match email pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (email_pattern, a_text)
 		end
@@ -65,8 +63,6 @@ feature -- Email and Web Patterns
 
 	is_url (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match URL pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (url_pattern, a_text)
 		end
@@ -79,8 +75,6 @@ feature -- Email and Web Patterns
 
 	is_domain (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match domain pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (domain_pattern, a_text)
 		end
@@ -96,8 +90,6 @@ feature -- Network Patterns
 
 	is_ipv4 (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match IPv4 pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (ipv4_pattern, a_text)
 		end
@@ -111,8 +103,6 @@ feature -- Network Patterns
 
 	is_ipv6 (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match IPv6 pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (ipv6_pattern, a_text)
 		end
@@ -126,8 +116,6 @@ feature -- Network Patterns
 
 	is_mac_address (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match MAC address pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (mac_address_pattern, a_text)
 		end
@@ -143,8 +131,6 @@ feature -- Phone Patterns
 
 	is_phone_us (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match US phone pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (phone_us_pattern, a_text)
 		end
@@ -158,8 +144,6 @@ feature -- Phone Patterns
 
 	is_phone_international (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match international phone pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (phone_international_pattern, a_text)
 		end
@@ -174,8 +158,6 @@ feature -- Date Patterns
 
 	is_date_iso (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match ISO date pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (date_iso_pattern, a_text)
 		end
@@ -188,8 +170,6 @@ feature -- Date Patterns
 
 	is_date_us (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match US date pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (date_us_pattern, a_text)
 		end
@@ -202,8 +182,6 @@ feature -- Date Patterns
 
 	is_date_eu (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match EU date pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (date_eu_pattern, a_text)
 		end
@@ -216,8 +194,6 @@ feature -- Date Patterns
 
 	is_datetime_iso (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match ISO datetime pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (datetime_iso_pattern, a_text)
 		end
@@ -232,8 +208,6 @@ feature -- Time Patterns
 
 	is_time_24h (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match 24-hour time pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (time_24h_pattern, a_text)
 		end
@@ -246,8 +220,6 @@ feature -- Time Patterns
 
 	is_time_12h (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match 12-hour time pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (time_12h_pattern, a_text)
 		end
@@ -263,8 +235,6 @@ feature -- Financial Patterns
 
 	is_credit_card (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match credit card pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (credit_card_pattern, a_text)
 		end
@@ -278,8 +248,6 @@ feature -- Financial Patterns
 
 	is_currency (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match currency pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (currency_pattern, a_text)
 		end
@@ -295,8 +263,6 @@ feature -- Identifier Patterns
 
 	is_uuid (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match UUID pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (uuid_pattern, a_text)
 		end
@@ -310,8 +276,6 @@ feature -- Identifier Patterns
 
 	is_hex_color (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match hex color pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (hex_color_pattern, a_text)
 		end
@@ -324,8 +288,6 @@ feature -- Identifier Patterns
 
 	is_username (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match username pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (username_pattern, a_text)
 		end
@@ -338,8 +300,6 @@ feature -- Identifier Patterns
 
 	is_slug (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match slug pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (slug_pattern, a_text)
 		end
@@ -355,8 +315,6 @@ feature -- Security Patterns
 
 	is_strong_password (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match strong password requirements?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (password_strong_pattern, a_text)
 		end
@@ -370,8 +328,6 @@ feature -- Security Patterns
 
 	is_medium_password (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match medium password requirements?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (password_medium_pattern, a_text)
 		end
@@ -386,8 +342,6 @@ feature -- Markup Patterns
 
 	extract_html_tags (a_text: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]
 			-- Extract all HTML tags from text
-		require
-			text_attached: a_text /= Void
 		do
 			Result := get_regex (html_tag_pattern).all_matches_for (html_tag_pattern, a_text)
 		end
@@ -408,8 +362,6 @@ feature -- File Patterns
 
 	extract_extension (a_filename: READABLE_STRING_GENERAL): detachable STRING_32
 			-- Extract file extension, or Void if none
-		require
-			filename_attached: a_filename /= Void
 		local
 			l_regex: SIMPLE_REGEX
 			l_match: SIMPLE_REGEX_MATCH
@@ -430,8 +382,6 @@ feature -- File Patterns
 
 	is_windows_path (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match Windows path pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (windows_path_pattern, a_text)
 		end
@@ -444,8 +394,6 @@ feature -- File Patterns
 
 	is_unix_path (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match Unix path pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (unix_path_pattern, a_text)
 		end
@@ -460,8 +408,6 @@ feature -- US-Specific Patterns
 
 	is_zip_code_us (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match US ZIP code pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (zip_code_us_pattern, a_text)
 		end
@@ -475,8 +421,6 @@ feature -- US-Specific Patterns
 
 	is_ssn (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match SSN pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (ssn_pattern, a_text)
 		end
@@ -491,8 +435,6 @@ feature -- Number Patterns
 
 	is_integer (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match integer pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (integer_pattern, a_text)
 		end
@@ -505,8 +447,6 @@ feature -- Number Patterns
 
 	is_decimal (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match decimal pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (decimal_pattern, a_text)
 		end
@@ -520,8 +460,6 @@ feature -- Number Patterns
 
 	is_scientific_notation (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match scientific notation pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (scientific_notation_pattern, a_text)
 		end
@@ -535,8 +473,6 @@ feature -- Number Patterns
 
 	is_hex_number (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match hex number pattern?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (hex_number_pattern, a_text)
 		end
@@ -551,8 +487,6 @@ feature -- Text Patterns
 
 	is_alphanumeric (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text contain only alphanumeric characters?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (alphanumeric_pattern, a_text)
 		end
@@ -565,8 +499,6 @@ feature -- Text Patterns
 
 	is_alphabetic (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text contain only alphabetic characters?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (alphabetic_pattern, a_text)
 		end
@@ -579,8 +511,6 @@ feature -- Text Patterns
 
 	is_whitespace_only (a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text contain only whitespace?
-		require
-			text_attached: a_text /= Void
 		do
 			Result := matches_pattern (whitespace_only_pattern, a_text)
 		end
@@ -592,8 +522,6 @@ feature {NONE} -- Implementation
 
 	get_regex (a_pattern: STRING_32): SIMPLE_REGEX
 			-- Get or create cached regex for pattern
-		require
-			pattern_attached: a_pattern /= Void
 		do
 			if attached pattern_cache.item (a_pattern) as l_cached then
 				Result := l_cached
@@ -609,9 +537,6 @@ feature {NONE} -- Implementation
 
 	matches_pattern (a_pattern: STRING_32; a_text: READABLE_STRING_GENERAL): BOOLEAN
 			-- Does text match pattern?
-		require
-			pattern_attached: a_pattern /= Void
-			text_attached: a_text /= Void
 		local
 			l_regex: SIMPLE_REGEX
 		do
