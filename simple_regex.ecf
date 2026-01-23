@@ -26,7 +26,7 @@
 	</target>
 	<target name="gobo_capability_tests" extends="simple_regex">
 		<description>Test target to verify Gobo regex capabilities</description>
-		<root class="GOBO_TEST_RUNNER" feature="make"/>
+		<root class="TEST_APP" feature="make"/>
 		<file_rule>
 			<exclude>/EIFGENs$</exclude>
 		</file_rule>
