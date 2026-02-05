@@ -56,14 +56,14 @@ feature {NONE} -- Initialization
 
 feature -- Comparison
 
-	is_equal (other: like Current): BOOLEAN
+	is_equal (a_other: like Current): BOOLEAN
 			-- Is `other` equal to current match?
 		do
-			if is_matched = other.is_matched then
+			if is_matched = a_other.is_matched then
 				if is_matched then
-					Result := start_position = other.start_position and then
-						end_position = other.end_position and then
-						value.same_string (other.value)
+					Result := start_position = a_other.start_position and then
+						end_position = a_other.end_position and then
+						value.same_string (a_other.value)
 				else
 					-- Both not matched
 					Result := True
@@ -131,13 +131,13 @@ feature -- Groups
 			model_consistent: Result = (groups_model.count - 1).max (0)
 		end
 
-	group (n: INTEGER): detachable STRING_32
+	group (a_n: INTEGER): detachable STRING_32
 			-- n-th captured group (0 = whole match)
 		require
-			valid_index: n >= 0 and n <= group_count
+			valid_index: a_n >= 0 and a_n <= group_count
 		do
-			if n < internal_groups.count then
-				Result := internal_groups [n + 1] -- 1-based list
+			if a_n < internal_groups.count then
+				Result := internal_groups [a_n + 1] -- 1-based list
 			end
 		end
 

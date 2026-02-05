@@ -1,0 +1,298 @@
+simple_regex test runner
+===========================
+
+Basic Match Tests
+-----------------
+  PASS: test_basic_match
+  PASS: test_no_match
+  PASS: test_match_in_middle
+  PASS: test_empty_pattern
+
+Character Class Tests
+---------------------
+  PASS: test_digit_class
+  PASS: test_word_class
+  PASS: test_whitespace_class
+  PASS: test_custom_class
+
+Capturing Group Tests
+---------------------
+  PASS: test_single_group
+  PASS: test_multiple_groups
+  PASS: test_nested_groups
+  PASS: test_non_capturing_group
+
+Match All Tests
+---------------
+  PASS: test_match_all_basic
+  PASS: test_match_all_no_matches
+  PASS: test_match_all_as_strings
+
+Replace Tests
+-------------
+  PASS: test_replace_first
+  PASS: test_replace_all
+  PASS: test_replace_with_groups
+  PASS: test_replace_no_match
+
+Split Tests
+-----------
+  PASS: test_split_basic
+  PASS: test_split_no_match
+
+Options Tests
+-------------
+  PASS: test_case_insensitive
+  PASS: test_multiline
+  PASS: test_dotall
+  PASS: test_option_immutability
+
+Convenience Method Tests
+------------------------
+  PASS: test_matches_pattern
+  PASS: test_first_match_for
+  PASS: test_all_matches_for
+  PASS: test_replace_first_match
+  PASS: test_replace_all_matches
+  PASS: test_split_by_pattern
+
+Match Context Tests
+-------------------
+  PASS: test_text_before
+  PASS: test_text_after
+
+Safety Tests
+------------
+  PASS: test_escape
+  PASS: test_pattern_complexity_simple
+  PASS: test_pattern_complexity_dangerous
+  PASS: test_is_potentially_dangerous
+
+Error Handling Tests
+--------------------
+  PASS: test_invalid_pattern
+  PASS: test_is_valid_pattern
+
+Advanced Feature Tests
+----------------------
+  PASS: test_lookahead_positive
+  PASS: test_lookahead_negative
+  PASS: test_lookbehind_positive
+  PASS: test_backreference
+  PASS: test_unicode_property
+
+
+=== BUILDER TESTS ===
+
+Literal Tests
+-------------
+  PASS: test_literal_simple
+  PASS: test_literal_escapes_special_chars
+  PASS: test_raw_no_escaping
+
+Character Class Tests
+---------------------
+  PASS: test_digit
+  PASS: test_word_char
+  PASS: test_whitespace
+  PASS: test_one_of
+  PASS: test_none_of
+  PASS: test_range
+
+Quantifier Tests
+----------------
+  PASS: test_zero_or_more
+  PASS: test_one_or_more
+  PASS: test_optional
+  PASS: test_exactly
+  PASS: test_at_least
+  PASS: test_between
+  PASS: test_lazy_quantifiers
+
+Group Tests
+-----------
+  PASS: test_capturing_group
+  PASS: test_non_capturing_group
+  PASS: test_multiple_groups
+  PASS: test_group_balancing
+
+Anchor Tests
+------------
+  PASS: test_start_of_string
+  PASS: test_end_of_string
+  PASS: test_word_boundary
+
+Alternation Tests
+-----------------
+  PASS: test_alternation
+
+Lookahead/Lookbehind Tests
+--------------------------
+  PASS: test_positive_lookahead
+  PASS: test_negative_lookahead
+  PASS: test_positive_lookbehind
+  PASS: test_negative_lookbehind
+
+Advanced Feature Tests
+----------------------
+  PASS: test_atomic_group
+  PASS: test_backreference
+  PASS: test_recursion
+  PASS: test_conditional
+
+Special Character Tests
+-----------------------
+  PASS: test_special_chars
+
+Fluent API Tests
+----------------
+  PASS: test_fluent_chaining
+  PASS: test_reset
+
+Options Tests
+-------------
+  PASS: test_to_regex_with_options
+
+Any Character Tests
+-------------------
+  PASS: test_any_char
+
+Unicode Tests
+-------------
+  PASS: test_unicode_property
+  PASS: test_grapheme
+
+
+=== PATTERNS TESTS ===
+
+Email and Web Tests
+-------------------
+  PASS: test_email_valid
+  PASS: test_email_invalid
+  PASS: test_url_valid
+  PASS: test_url_invalid
+  PASS: test_domain_valid
+
+Network Tests
+-------------
+  PASS: test_ipv4_valid
+  PASS: test_ipv4_invalid
+  PASS: test_mac_address_valid
+
+Phone Tests
+-----------
+  PASS: test_phone_us_valid
+  PASS: test_phone_us_invalid
+
+Date Tests
+----------
+  PASS: test_date_iso_valid
+  PASS: test_date_iso_invalid
+  PASS: test_date_us_valid
+  PASS: test_date_eu_valid
+  PASS: test_datetime_iso_valid
+
+Time Tests
+----------
+  PASS: test_time_24h_valid
+  PASS: test_time_24h_invalid
+  PASS: test_time_12h_valid
+
+Financial Tests
+---------------
+  PASS: test_credit_card_valid
+  PASS: test_currency_valid
+
+Identifier Tests
+----------------
+  PASS: test_uuid_valid
+  PASS: test_uuid_invalid
+  PASS: test_hex_color_valid
+  PASS: test_hex_color_invalid
+  PASS: test_username_valid
+  PASS: test_username_invalid
+  PASS: test_slug_valid
+  PASS: test_slug_invalid
+
+Security Tests
+--------------
+  PASS: test_strong_password_valid
+  PASS: test_strong_password_invalid
+  PASS: test_medium_password_valid
+
+US-Specific Tests
+-----------------
+  PASS: test_zip_code_valid
+  PASS: test_ssn_valid
+  PASS: test_ssn_invalid
+
+Number Tests
+------------
+  PASS: test_integer_valid
+  PASS: test_decimal_valid
+  PASS: test_scientific_notation_valid
+  PASS: test_hex_number_valid
+
+Text Tests
+----------
+  PASS: test_alphanumeric_valid
+  PASS: test_alphanumeric_invalid
+  PASS: test_alphabetic_valid
+  PASS: test_whitespace_only
+
+File Tests
+----------
+  PASS: test_extract_extension
+  PASS: test_unix_path_valid
+
+
+=== PHASE 6 ADVERSARIAL TESTS ===
+
+Boundary Value Tests
+-------------------
+  PASS: test_empty_pattern
+  PASS: test_empty_subject
+  PASS: test_single_character_match
+
+ReDoS Detection Tests
+--------------------
+  PASS: test_nested_quantifiers_complexity
+  PASS: test_dangerous_pattern
+  PASS: test_complexity_range
+
+Text Position Tests
+-------------------
+  PASS: test_match_at_start
+  PASS: test_match_at_end
+  PASS: test_all_matches_with_details_empty
+  PASS: test_all_matches_with_details_single_start
+  PASS: test_all_matches_with_details_adjacent
+
+Replacement Tests
+-----------------
+  PASS: test_replace_no_match
+  PASS: test_replace_all_no_match
+  PASS: test_replace_all_everything
+
+Options Immutability Tests
+-------------------------
+  PASS: test_case_insensitive_new_object
+  PASS: test_multiline_new_object
+  PASS: test_chained_options
+
+Compilation State Tests
+----------------------
+  PASS: test_not_compiled_after_make
+  PASS: test_error_message_empty_on_success
+
+Convenience Method Tests
+------------------------
+  PASS: test_contains_pattern_true
+  PASS: test_contains_pattern_false
+  PASS: test_first_match_for_value
+  PASS: test_first_match_for_void
+  PASS: test_all_matches_for_convenience
+
+===========================
+Results: 151 passed, 0 failed
+ALL TESTS PASSED

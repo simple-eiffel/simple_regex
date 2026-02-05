@@ -18,10 +18,12 @@ feature {NONE} -- Initialization
 			tests: SIMPLE_REGEX_TEST
 			builder_tests: SIMPLE_REGEX_BUILDER_TEST
 			patterns_tests: SIMPLE_REGEX_PATTERNS_TEST
+			phase6_tests: SIMPLE_REGEX_PHASE6_TEST
 		do
 			create tests
 			create builder_tests
 			create patterns_tests
+			create phase6_tests
 			io.put_string ("simple_regex test runner%N")
 			io.put_string ("===========================%N%N")
 
@@ -31,6 +33,7 @@ feature {NONE} -- Initialization
 			run_regex_tests (tests)
 			run_builder_tests (builder_tests)
 			run_patterns_tests (patterns_tests)
+			run_phase6_tests (phase6_tests)
 
 			io.put_string ("%N===========================%N")
 			io.put_string ("Results: " + passed.out + " passed, " + failed.out + " failed%N")
@@ -331,6 +334,64 @@ feature {NONE} -- Initialization
 			io.put_string ("----------%N")
 			run_test (agent tests.test_extract_extension, "test_extract_extension")
 			run_test (agent tests.test_unix_path_valid, "test_unix_path_valid")
+		end
+
+	run_phase6_tests (tests: SIMPLE_REGEX_PHASE6_TEST)
+			-- Run SIMPLE_REGEX_PHASE6_TEST (adversarial tests)
+		do
+			io.put_string ("%N%N=== PHASE 6 ADVERSARIAL TESTS ===%N%N")
+
+			-- Boundary Value Tests
+			io.put_string ("Boundary Value Tests%N")
+			io.put_string ("-------------------%N")
+			run_test (agent tests.test_empty_pattern, "test_empty_pattern")
+			run_test (agent tests.test_empty_subject, "test_empty_subject")
+			run_test (agent tests.test_single_character_match, "test_single_character_match")
+
+			-- ReDoS Detection Tests
+			io.put_string ("%NReDoS Detection Tests%N")
+			io.put_string ("--------------------%N")
+			run_test (agent tests.test_nested_quantifiers_complexity, "test_nested_quantifiers_complexity")
+			run_test (agent tests.test_dangerous_pattern, "test_dangerous_pattern")
+			run_test (agent tests.test_complexity_range, "test_complexity_range")
+
+			-- Text Position Tests
+			io.put_string ("%NText Position Tests%N")
+			io.put_string ("-------------------%N")
+			run_test (agent tests.test_match_at_start, "test_match_at_start")
+			run_test (agent tests.test_match_at_end, "test_match_at_end")
+			run_test (agent tests.test_all_matches_with_details_empty, "test_all_matches_with_details_empty")
+			run_test (agent tests.test_all_matches_with_details_single_start, "test_all_matches_with_details_single_start")
+			run_test (agent tests.test_all_matches_with_details_adjacent, "test_all_matches_with_details_adjacent")
+
+			-- Replacement Tests
+			io.put_string ("%NReplacement Tests%N")
+			io.put_string ("-----------------%N")
+			run_test (agent tests.test_replace_no_match, "test_replace_no_match")
+			run_test (agent tests.test_replace_all_no_match, "test_replace_all_no_match")
+			run_test (agent tests.test_replace_all_everything, "test_replace_all_everything")
+
+			-- Options Immutability Tests
+			io.put_string ("%NOptions Immutability Tests%N")
+			io.put_string ("-------------------------%N")
+			run_test (agent tests.test_case_insensitive_new_object, "test_case_insensitive_new_object")
+			run_test (agent tests.test_multiline_new_object, "test_multiline_new_object")
+			run_test (agent tests.test_chained_options, "test_chained_options")
+
+			-- Compilation State Tests
+			io.put_string ("%NCompilation State Tests%N")
+			io.put_string ("----------------------%N")
+			run_test (agent tests.test_not_compiled_after_make, "test_not_compiled_after_make")
+			run_test (agent tests.test_error_message_empty_on_success, "test_error_message_empty_on_success")
+
+			-- Convenience Method Tests
+			io.put_string ("%NConvenience Method Tests%N")
+			io.put_string ("------------------------%N")
+			run_test (agent tests.test_contains_pattern_true, "test_contains_pattern_true")
+			run_test (agent tests.test_contains_pattern_false, "test_contains_pattern_false")
+			run_test (agent tests.test_first_match_for_value, "test_first_match_for_value")
+			run_test (agent tests.test_first_match_for_void, "test_first_match_for_void")
+			run_test (agent tests.test_all_matches_for_convenience, "test_all_matches_for_convenience")
 		end
 
 feature {NONE} -- Implementation

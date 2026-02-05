@@ -40,15 +40,15 @@ feature -- Access
 			model_consistent: Result = model.count
 		end
 
-	item (i: INTEGER): SIMPLE_REGEX_MATCH
+	item (a_i: INTEGER): SIMPLE_REGEX_MATCH
 			-- Match at index i (1-based)
 		require
-			valid_index: i >= 1 and i <= count
+			valid_index: a_i >= 1 and a_i <= count
 		do
-			Result := internal_list [i]
+			Result := internal_list [a_i]
 		ensure
 			result_attached: Result /= Void
-			model_consistent: Result = model [i]
+			model_consistent: Result = model [a_i]
 		end
 
 	first: SIMPLE_REGEX_MATCH

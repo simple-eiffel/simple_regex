@@ -415,14 +415,14 @@ feature -- Building: Quantifiers
 			not_quantifiable: not has_quantifiable_element
 		end
 
-	exactly (n: INTEGER): like Current
+	exactly (a_n: INTEGER): like Current
 			-- Match preceding element exactly n times {n}
 		require
 			has_element: has_quantifiable_element
-			positive: n >= 0
+			positive: a_n >= 0
 		do
 			internal_pattern.append_character ('{')
-			internal_pattern.append_integer (n)
+			internal_pattern.append_integer (a_n)
 			internal_pattern.append_character ('}')
 			has_quantifiable_element := False
 			Result := Current
@@ -431,14 +431,14 @@ feature -- Building: Quantifiers
 			not_quantifiable: not has_quantifiable_element
 		end
 
-	at_least (n: INTEGER): like Current
+	at_least (a_n: INTEGER): like Current
 			-- Match preceding element at least n times {n,}
 		require
 			has_element: has_quantifiable_element
-			non_negative: n >= 0
+			non_negative: a_n >= 0
 		do
 			internal_pattern.append_character ('{')
-			internal_pattern.append_integer (n)
+			internal_pattern.append_integer (a_n)
 			internal_pattern.append_string (",}")
 			has_quantifiable_element := False
 			Result := Current
@@ -585,13 +585,13 @@ feature -- Building: Lookahead/Lookbehind
 
 feature -- Building: Backreferences
 
-	backreference (n: INTEGER): like Current
+	backreference (a_n: INTEGER): like Current
 			-- Reference to captured group n (\n)
 		require
-			valid_group: n >= 1 and n <= 9
+			valid_group: a_n >= 1 and a_n <= 9
 		do
 			internal_pattern.append_character ('\')
-			internal_pattern.append_integer (n)
+			internal_pattern.append_integer (a_n)
 			has_quantifiable_element := True
 			Result := Current
 		ensure
@@ -614,13 +614,13 @@ feature -- Building: Recursion
 
 feature -- Building: Conditionals
 
-	conditional_start (n: INTEGER): like Current
+	conditional_start (a_n: INTEGER): like Current
 			-- Start conditional on group n: (?(n)
 		require
-			valid_group: n >= 1
+			valid_group: a_n >= 1
 		do
 			internal_pattern.append_string ("(?(")
-			internal_pattern.append_integer (n)
+			internal_pattern.append_integer (a_n)
 			internal_pattern.append_character (')')
 			open_group_count := open_group_count + 1
 			has_quantifiable_element := False
@@ -704,13 +704,13 @@ feature {NONE} -- Implementation
 	internal_pattern: STRING_32
 			-- The pattern being built
 
-	is_special_char (c: CHARACTER_32): BOOLEAN
+	is_special_char (a_c: CHARACTER_32): BOOLEAN
 			-- Is c a special regex character that needs escaping?
 		do
-			Result := c = '\' or c = '^' or c = '$' or c = '.' or
-					  c = '[' or c = ']' or c = '|' or c = '(' or
-					  c = ')' or c = '?' or c = '*' or c = '+' or
-					  c = '{' or c = '}'
+			Result := a_c = '\' or a_c = '^' or a_c = '$' or a_c = '.' or
+					  a_c = '[' or a_c = ']' or a_c = '|' or a_c = '(' or
+					  a_c = ')' or a_c = '?' or a_c = '*' or a_c = '+' or
+					  a_c = '{' or a_c = '}'
 		end
 
 	escape_class_chars (a_chars: READABLE_STRING_GENERAL): STRING_32

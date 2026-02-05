@@ -169,7 +169,7 @@ feature -- Replacement
 			check attached internal_regex as l_regex then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
-					Result := l_regex.replace (a_replacement).to_string_32
+					Result := l_regex.unicode_replace (a_replacement)
 				else
 					Result := a_subject.to_string_32
 				end
@@ -189,7 +189,7 @@ feature -- Replacement
 			check attached internal_regex as l_regex then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
-					Result := l_regex.replace_all (a_replacement).to_string_32
+					Result := l_regex.unicode_replace_all (a_replacement)
 				else
 					Result := a_subject.to_string_32
 				end
@@ -297,7 +297,7 @@ feature -- Convenience Class Methods (with caching)
 			if l_regex.is_compiled then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
-					Result := l_regex.captured_substring (0).to_string_32
+					Result := l_regex.unicode_captured_substring (0)
 				end
 			end
 		end
@@ -315,12 +315,84 @@ feature -- Convenience Class Methods (with caching)
 				until
 					not l_regex.has_matched
 				loop
-					Result.extend (l_regex.captured_substring (0).to_string_32)
+					Result.extend (l_regex.unicode_captured_substring (0))
 					l_regex.next_match
 				end
 			end
 		ensure
 			result_attached: Result /= Void
+		end
+
+	all_matches_with_details (a_pattern, a_subject: READABLE_STRING_GENERAL):
+		ARRAYED_LIST [TUPLE [value: STRING_32; start_position: INTEGER;
+							 end_position: INTEGER; length: INTEGER;
+							 text_before: STRING_32; text_after: STRING_32]]
+			-- All matching substrings with position and context information
+			-- Each tuple contains: matched value, start/end positions, length,
+			-- and the subject text before and after the match.
+		local
+			l_regex: RX_PCRE_REGULAR_EXPRESSION
+			l_start: INTEGER
+			l_end: INTEGER
+			l_text_before: STRING_32
+			l_text_after: STRING_32
+			l_length: INTEGER
+			l_subject_32: STRING_32
+		do
+			create Result.make (10)
+			l_regex := cached_regex (a_pattern)
+			if l_regex.is_compiled then
+				l_subject_32 := a_subject.to_string_32
+				l_regex.match (a_subject)
+				from
+				until
+					not l_regex.has_matched
+				loop
+					l_start := l_regex.captured_start_position (0)
+					l_end := l_regex.captured_end_position (0)
+					l_length := (l_end - l_start + 1).max (0)
+
+					-- Text before match
+					if l_start > 1 then
+						l_text_before := l_subject_32.substring (1, l_start - 1)
+					else
+						create l_text_before.make_empty
+					end
+
+					-- Text after match
+					if l_end < l_subject_32.count then
+						l_text_after := l_subject_32.substring (l_end + 1, l_subject_32.count)
+					else
+						create l_text_after.make_empty
+					end
+
+					Result.extend ([
+						l_regex.unicode_captured_substring (0),
+						l_start,
+						l_end,
+						l_length,
+						l_text_before,
+						l_text_after
+					])
+					l_regex.next_match
+				end
+			end
+		ensure
+			empty_if_invalid_pattern: (not is_valid_pattern (a_pattern)) implies Result.count = 0
+			result_not_void: Result /= Void
+			all_positions_valid: across Result as ic all
+				ic.item.start_position >= 1 and
+				ic.item.end_position >= ic.item.start_position and
+				ic.item.start_position <= a_subject.count and
+				ic.item.end_position <= a_subject.count
+			end
+			all_lengths_consistent: across Result as ic all
+				ic.item.length = (ic.item.end_position - ic.item.start_position + 1).max (0)
+			end
+			all_text_reconstructable: across Result as ic all
+				ic.item.text_before.count + ic.item.value.count + ic.item.text_after.count =
+				a_subject.count
+			end
 		end
 
 	replace_first_match (a_pattern, a_subject, a_replacement: READABLE_STRING_GENERAL): STRING_32
@@ -332,7 +404,7 @@ feature -- Convenience Class Methods (with caching)
 			if l_regex.is_compiled then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
-					Result := l_regex.replace (a_replacement).to_string_32
+					Result := l_regex.unicode_replace (a_replacement)
 				else
 					Result := a_subject.to_string_32
 				end
@@ -352,7 +424,7 @@ feature -- Convenience Class Methods (with caching)
 			if l_regex.is_compiled then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
-					Result := l_regex.replace_all (a_replacement).to_string_32
+					Result := l_regex.unicode_replace_all (a_replacement)
 				else
 					Result := a_subject.to_string_32
 				end
@@ -497,7 +569,7 @@ feature {NONE} -- Implementation
 				create l_groups.make (a_regex.match_count)
 				from i := 0 until i >= a_regex.match_count loop
 					if a_regex.captured_start_position (i) > 0 then
-						l_groups.extend (a_regex.captured_substring (i).to_string_32)
+						l_groups.extend (a_regex.unicode_captured_substring (i))
 					else
 						l_groups.extend (Void)
 					end
@@ -505,7 +577,7 @@ feature {NONE} -- Implementation
 				end
 				create Result.make_matched (
 					a_subject,
-					a_regex.captured_substring (0).to_string_32,
+					a_regex.unicode_captured_substring (0),
 					a_regex.captured_start_position (0),
 					a_regex.captured_end_position (0),
 					l_groups)
@@ -534,13 +606,13 @@ feature {NONE} -- Implementation
 			a_regex.set_dotall (is_dotall)
 		end
 
-	is_special_char (c: CHARACTER_32): BOOLEAN
+	is_special_char (a_c: CHARACTER_32): BOOLEAN
 			-- Is c a special regex character that needs escaping?
 		do
-			Result := c = '\' or c = '^' or c = '$' or c = '.' or
-					  c = '[' or c = ']' or c = '|' or c = '(' or
-					  c = ')' or c = '?' or c = '*' or c = '+' or
-					  c = '{' or c = '}'
+			Result := a_c = '\' or a_c = '^' or a_c = '$' or a_c = '.' or
+					  a_c = '[' or a_c = ']' or a_c = '|' or a_c = '(' or
+					  a_c = ')' or a_c = '?' or a_c = '*' or a_c = '+' or
+					  a_c = '{' or a_c = '}'
 		end
 
 feature {SIMPLE_REGEX, SIMPLE_REGEX_BUILDER} -- Internal
