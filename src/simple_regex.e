@@ -123,8 +123,8 @@ feature -- Matching
 			compiled: is_compiled
 		do
 			check attached internal_regex as al_l_regex then
-				l_regex.match (a_subject)
-				Result := create_match_result (l_regex, a_subject)
+				al_l_regex.match (a_subject)
+				Result := create_match_result (al_l_regex, a_subject)
 			end
 		ensure
 			result_attached: Result /= Void
@@ -142,14 +142,14 @@ feature -- Matching
 		do
 			create Result.make (a_subject)
 			check attached internal_regex as al_l_regex then
-				l_regex.match (a_subject)
+				al_l_regex.match (a_subject)
 				from
 				until
-					not l_regex.has_matched
+					not al_l_regex.has_matched
 				loop
-					l_match := create_match_result (l_regex, a_subject)
+					l_match := create_match_result (al_l_regex, a_subject)
 					Result.extend (l_match)
-					l_regex.next_match
+					al_l_regex.next_match
 				end
 			end
 		ensure
@@ -167,9 +167,9 @@ feature -- Replacement
 			compiled: is_compiled
 		do
 			check attached internal_regex as al_l_regex then
-				l_regex.match (a_subject)
-				if l_regex.has_matched then
-					Result := l_regex.unicode_replace (a_replacement)
+				al_l_regex.match (a_subject)
+				if al_l_regex.has_matched then
+					Result := al_l_regex.unicode_replace (a_replacement)
 				else
 					Result := a_subject.to_string_32
 				end
@@ -187,9 +187,9 @@ feature -- Replacement
 			compiled: is_compiled
 		do
 			check attached internal_regex as al_l_regex then
-				l_regex.match (a_subject)
-				if l_regex.has_matched then
-					Result := l_regex.unicode_replace_all (a_replacement)
+				al_l_regex.match (a_subject)
+				if al_l_regex.has_matched then
+					Result := al_l_regex.unicode_replace_all (a_replacement)
 				else
 					Result := a_subject.to_string_32
 				end
@@ -210,9 +210,9 @@ feature -- Splitting
 			l_parts: ARRAY [STRING]
 		do
 			check attached internal_regex as al_l_regex then
-				l_regex.match (a_subject)
-				if l_regex.has_matched then
-					l_parts := l_regex.split
+				al_l_regex.match (a_subject)
+				if al_l_regex.has_matched then
+					l_parts := al_l_regex.split
 					create Result.make (l_parts.count)
 					across l_parts as ic_p loop
 						Result.extend (ic_p.item.to_string_32)
@@ -503,17 +503,17 @@ feature -- Safety
 				c := a_pattern [i]
 				inspect c
 				when '(' then
-					in_group := True
-					if prev_was_quantifier then
+					l_in_group := True
+					if l_prev_was_quantifier then
 						l_nested_quantifiers := l_nested_quantifiers + 1
 					end
 				when ')' then
-					in_group := False
+					l_in_group := False
 				when '*', '+' then
-					if prev_was_quantifier or in_group then
+					if l_prev_was_quantifier or l_in_group then
 						l_nested_quantifiers := l_nested_quantifiers + 1
 					end
-					prev_was_quantifier := True
+					l_prev_was_quantifier := True
 				when '|' then
 					l_alternations := l_alternations + 1
 				when '\' then
@@ -522,14 +522,14 @@ feature -- Safety
 						i := i + 1
 						c := a_pattern [i]
 						if c >= '1' and c <= '9' then
-							if prev_was_quantifier then
+							if l_prev_was_quantifier then
 								l_backrefs_with_quantifiers := l_backrefs_with_quantifiers + 1
 							end
 						end
 					end
-					prev_was_quantifier := False
+					l_prev_was_quantifier := False
 				else
-					prev_was_quantifier := False
+					l_prev_was_quantifier := False
 				end
 				i := i + 1
 			end
@@ -594,7 +594,7 @@ feature {NONE} -- Implementation
 			create Result.make
 			Result.set_options (a_caseless, a_multiline, a_dotall)
 			if attached pattern as al_p then
-				Result.compile (p)
+				Result.compile (al_p)
 			end
 		end
 
@@ -638,7 +638,7 @@ feature {NONE} -- Pattern Cache
 		do
 			l_key := a_pattern.to_string_32
 			if attached pattern_cache.item (l_key) as al_l_cached then
-				Result := l_cached
+				Result := al_l_cached
 			else
 				create Result.make
 				Result.compile (a_pattern)
