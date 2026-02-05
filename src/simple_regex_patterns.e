@@ -369,7 +369,7 @@ feature -- File Patterns
 			l_regex := get_regex (file_extension_pattern)
 			create l_regex.make_from_pattern (file_extension_pattern)
 			l_match := l_regex.match (a_filename)
-			if l_match.is_matched and then attached l_match.group (1) as ext then
+			if l_match.is_matched and then attached l_match.group (1) as al_ext then
 				Result := ext
 			end
 		end
@@ -523,7 +523,7 @@ feature {NONE} -- Implementation
 	get_regex (a_pattern: STRING_32): SIMPLE_REGEX
 			-- Get or create cached regex for pattern
 		do
-			if attached pattern_cache.item (a_pattern) as l_cached then
+			if attached pattern_cache.item (a_pattern) as al_l_cached then
 				Result := l_cached
 			else
 				create Result.make_from_pattern (a_pattern)

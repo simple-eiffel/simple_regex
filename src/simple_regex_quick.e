@@ -75,7 +75,7 @@ feature -- Finding
 		require
 			pattern_not_empty: not a_pattern.is_empty
 		do
-			if attached regex.first_match_for (a_pattern, a_text) as l_r then Result := l_r.to_string_8 end
+			if attached regex.first_match_for (a_pattern, a_text) as al_l_r then Result := l_r.to_string_8 end
 		end
 
 	find_all (a_pattern: STRING; a_text: STRING): ARRAYED_LIST [STRING]

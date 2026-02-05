@@ -122,7 +122,7 @@ feature -- Matching
 		require
 			compiled: is_compiled
 		do
-			check attached internal_regex as l_regex then
+			check attached internal_regex as al_l_regex then
 				l_regex.match (a_subject)
 				Result := create_match_result (l_regex, a_subject)
 			end
@@ -141,7 +141,7 @@ feature -- Matching
 			l_match: SIMPLE_REGEX_MATCH
 		do
 			create Result.make (a_subject)
-			check attached internal_regex as l_regex then
+			check attached internal_regex as al_l_regex then
 				l_regex.match (a_subject)
 				from
 				until
@@ -166,7 +166,7 @@ feature -- Replacement
 		require
 			compiled: is_compiled
 		do
-			check attached internal_regex as l_regex then
+			check attached internal_regex as al_l_regex then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
 					Result := l_regex.unicode_replace (a_replacement)
@@ -186,7 +186,7 @@ feature -- Replacement
 		require
 			compiled: is_compiled
 		do
-			check attached internal_regex as l_regex then
+			check attached internal_regex as al_l_regex then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
 					Result := l_regex.unicode_replace_all (a_replacement)
@@ -209,7 +209,7 @@ feature -- Splitting
 		local
 			l_parts: ARRAY [STRING]
 		do
-			check attached internal_regex as l_regex then
+			check attached internal_regex as al_l_regex then
 				l_regex.match (a_subject)
 				if l_regex.has_matched then
 					l_parts := l_regex.split
@@ -495,8 +495,8 @@ feature -- Safety
 			l_backrefs_with_quantifiers: INTEGER
 			i: INTEGER
 			c: CHARACTER_32
-			in_group: BOOLEAN
-			prev_was_quantifier: BOOLEAN
+			l_in_group: BOOLEAN
+			l_prev_was_quantifier: BOOLEAN
 		do
 			-- Count potential problem patterns
 			from i := 1 until i > a_pattern.count loop
@@ -593,7 +593,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make
 			Result.set_options (a_caseless, a_multiline, a_dotall)
-			if attached pattern as p then
+			if attached pattern as al_p then
 				Result.compile (p)
 			end
 		end
@@ -637,7 +637,7 @@ feature {NONE} -- Pattern Cache
 			l_key: STRING_32
 		do
 			l_key := a_pattern.to_string_32
-			if attached pattern_cache.item (l_key) as l_cached then
+			if attached pattern_cache.item (l_key) as al_l_cached then
 				Result := l_cached
 			else
 				create Result.make
