@@ -1,0 +1,61 @@
+# Phase 1m MML Coverage Report
+# Project: D:\prod\simple_regex
+# Date: 2026-02-06
+# Mode: retrofit
+
+## Collection Attributes Found
+| Class | Attribute | Type | MML Type |
+|-------|-----------|------|----------|
+| SIMPLE_REGEX | pattern_cache (once) | HASH_TABLE [RX_PCRE_REGULAR_EXPRESSION, STRING_32] | N/A (shared cache, not instance state) |
+| SIMPLE_REGEX_MATCH | internal_groups | ARRAYED_LIST [detachable STRING_32] | MML_SEQUENCE [detachable STRING_32] |
+| SIMPLE_REGEX_MATCH_LIST | internal_list | ARRAYED_LIST [SIMPLE_REGEX_MATCH] | MML_SEQUENCE [SIMPLE_REGEX_MATCH] |
+| SIMPLE_REGEX_BUILDER | internal_pattern | STRING_32 | N/A (scalar, not collection) |
+| SIMPLE_REGEX_PATTERNS | pattern_cache | HASH_TABLE [SIMPLE_REGEX, STRING_32] | N/A (cache, not domain state) |
+| SIMPLE_REGEX_QUICK | (none) | — | N/A |
+
+## Model Queries Added/Verified
+| Class | Query | MML Type | Status |
+|-------|-------|----------|--------|
+| SIMPLE_REGEX_MATCH | groups_model | MML_SEQUENCE [detachable STRING_32] | VERIFIED (pre-existing, correct) |
+| SIMPLE_REGEX_MATCH_LIST | model | MML_SEQUENCE [SIMPLE_REGEX_MATCH] | VERIFIED (pre-existing, correct) |
+
+## Pre-existing Model-Based Contracts (Verified)
+SIMPLE_REGEX_MATCH:
+- group_count postcondition: model_consistent (line 131)
+- groups postcondition: model_consistent (line 150)
+
+SIMPLE_REGEX_MATCH_LIST:
+- make postcondition: model_empty (line 26)
+- count postcondition: model_consistent (line 40)
+- item postcondition: model_consistent (line 51)
+- first postcondition: model_consistent (line 62)
+- last postcondition: model_consistent (line 73)
+- is_empty postcondition: model_consistent (line 84)
+- has_matches postcondition: model_consistent (line 93)
+- extend postcondition: model_extended with frame condition (line 136)
+
+## Contracts Strengthened
+- Postconditions added/enriched: 0 (already comprehensive)
+- Preconditions added/enriched: 0
+- Frame conditions added: 0 (extend already has frame condition via |=|)
+- Invariants added/enriched: 2 (SIMPLE_REGEX_MATCH model_groups_count, SIMPLE_REGEX_MATCH_LIST model_count)
+
+## ECF
+simple_mml already present in ECF — no update needed.
+
+## Compilation
+Command: /d/prod/ec.sh test -config simple_regex.ecf -target simple_regex_tests
+Output: System Recompiled. C compilation completed.
+Warnings: 0
+Status: PASS
+
+## Tests
+Command: ./EIFGENs/simple_regex_tests/F_code/simple_regex.exe
+Output: 151 passed, 0 failed - ALL TESTS PASSED
+Status: PASS
+
+## Coverage Assessment
+FULL - Both collection attributes with domain semantics (internal_groups, internal_list) have
+model queries with comprehensive model-based contracts. Three HASH_TABLE caches were correctly
+excluded as they represent shared/cached state, not domain model. Model consistency invariants
+now present in both classes.

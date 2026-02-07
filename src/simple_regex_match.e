@@ -213,4 +213,7 @@ invariant
 	positions_valid: is_matched implies (start_position >= 1 and start_position <= end_position + 1)
 	length_non_negative: is_matched implies (end_position - start_position + 1) >= 0
 
+	-- Model consistency
+	model_groups_count: groups_model.count = internal_groups.count
+
 end

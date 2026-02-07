@@ -160,4 +160,7 @@ invariant
 	internal_list_attached: internal_list /= Void
 	count_non_negative: count >= 0
 
+	-- Model consistency
+	model_count: model.count = count
+
 end
