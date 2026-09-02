@@ -1,6 +1,6 @@
 {
   "name": "simple_regex",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "Simple Regex - High-level regex API for Eiffel",
   "author": "Larry Rix",
   "license": "MIT",

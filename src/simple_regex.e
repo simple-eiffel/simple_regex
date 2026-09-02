@@ -17,6 +17,15 @@ note
 
 		Not Supported by Gobo:
 		- Named groups (?P<name>...) - use indexed access instead
+
+		Subject strings:
+		Every feature taking a subject accepts any READABLE_STRING_GENERAL -
+		STRING_8, STRING_32, IMMUTABLE_STRING_32 - and reports positions and
+		returns pieces in code points of that subject. Features that need the
+		Gobo backend's 8-bit-only path normalize the subject to STRING_32 first
+		and use the Unicode counterpart (`unicode_split', `unicode_replace',
+		`unicode_captured_substring'), so no public feature can raise a
+		`subject_is_string' precondition violation from inside the library.
 	]"
 	author: "Larry Rix"
 	date: "$Date$"
@@ -204,22 +213,29 @@ feature -- Splitting
 	tokenize,
 	divide (a_subject: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]
 			-- Split subject by pattern
+			--
+			-- `a_subject' may be any READABLE_STRING_GENERAL, narrow or wide.
+			-- It is normalized to STRING_32 before the match so that the
+			-- Gobo backend's Unicode splitting path is used; the pieces are
+			-- code-point-for-code-point substrings of `a_subject'.
 		require
 			compiled: is_compiled
 		local
-			l_parts: ARRAY [STRING]
+			l_parts: ARRAY [STRING_32]
+			l_subject: STRING_32
 		do
+			l_subject := a_subject.to_string_32
 			check attached internal_regex as al_l_regex then
-				al_l_regex.match (a_subject)
+				al_l_regex.match (l_subject)
 				if al_l_regex.has_matched then
-					l_parts := al_l_regex.split
+					l_parts := al_l_regex.unicode_split
 					create Result.make (l_parts.count)
 					across l_parts as ic_p loop
-						Result.extend (ic_p.item.to_string_32)
+						Result.extend (ic_p.item)
 					end
 				else
 					create Result.make (1)
-					Result.extend (a_subject.to_string_32)
+					Result.extend (l_subject)
 				end
 			end
 		ensure
@@ -437,26 +453,31 @@ feature -- Convenience Class Methods (with caching)
 
 	split_by_pattern (a_pattern, a_subject: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]
 			-- Split subject by pattern
+			--
+			-- `a_subject' may be any READABLE_STRING_GENERAL, narrow or wide.
+			-- See `split' for the normalization rule.
 		local
 			l_regex: RX_PCRE_REGULAR_EXPRESSION
-			l_parts: ARRAY [STRING]
+			l_parts: ARRAY [STRING_32]
+			l_subject: STRING_32
 		do
+			l_subject := a_subject.to_string_32
 			l_regex := cached_regex (a_pattern)
 			if l_regex.is_compiled then
-				l_regex.match (a_subject)
+				l_regex.match (l_subject)
 				if l_regex.has_matched then
-					l_parts := l_regex.split
+					l_parts := l_regex.unicode_split
 					create Result.make (l_parts.count)
 					across l_parts as ic_p loop
-						Result.extend (ic_p.item.to_string_32)
+						Result.extend (ic_p.item)
 					end
 				else
 					create Result.make (1)
-					Result.extend (a_subject.to_string_32)
+					Result.extend (l_subject)
 				end
 			else
 				create Result.make (1)
-				Result.extend (a_subject.to_string_32)
+				Result.extend (l_subject)
 			end
 		ensure
 			result_attached: Result /= Void
