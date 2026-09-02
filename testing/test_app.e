@@ -19,11 +19,13 @@ feature {NONE} -- Initialization
 			builder_tests: SIMPLE_REGEX_BUILDER_TEST
 			patterns_tests: SIMPLE_REGEX_PATTERNS_TEST
 			phase6_tests: SIMPLE_REGEX_PHASE6_TEST
+			unicode_tests: SIMPLE_REGEX_UNICODE_TEST
 		do
 			create tests
 			create builder_tests
 			create patterns_tests
 			create phase6_tests
+			create unicode_tests
 			io.put_string ("simple_regex test runner%N")
 			io.put_string ("===========================%N%N")
 
@@ -34,6 +36,7 @@ feature {NONE} -- Initialization
 			run_builder_tests (builder_tests)
 			run_patterns_tests (patterns_tests)
 			run_phase6_tests (phase6_tests)
+			run_unicode_tests (unicode_tests)
 
 			io.put_string ("%N===========================%N")
 			io.put_string ("Results: " + passed.out + " passed, " + failed.out + " failed%N")
@@ -392,6 +395,22 @@ feature {NONE} -- Initialization
 			run_test (agent tests.test_first_match_for_value, "test_first_match_for_value")
 			run_test (agent tests.test_first_match_for_void, "test_first_match_for_void")
 			run_test (agent tests.test_all_matches_for_convenience, "test_all_matches_for_convenience")
+		end
+
+	run_unicode_tests (tests: SIMPLE_REGEX_UNICODE_TEST)
+			-- Run SIMPLE_REGEX_UNICODE_TEST (general-string subject vectors)
+		do
+			io.put_string ("%N%N=== GENERAL-STRING SUBJECT VECTORS ===%N%N")
+
+			io.put_string ("Split Vector Tests%N")
+			io.put_string ("------------------%N")
+			run_test (agent tests.test_split_unicode_subject, "test_split_unicode_subject")
+			run_test (agent tests.test_match_all_unicode_subject, "test_match_all_unicode_subject")
+			run_test (agent tests.test_split_agrees_with_match_all_on_unicode_subject, "test_split_agrees_with_match_all_on_unicode_subject")
+			run_test (agent tests.test_split_unicode_positions_refer_to_caller_string, "test_split_unicode_positions_refer_to_caller_string")
+			run_test (agent tests.test_split_by_pattern_unicode_subject, "test_split_by_pattern_unicode_subject")
+			run_test (agent tests.test_split_ascii_string_32_subject, "test_split_ascii_string_32_subject")
+			run_test (agent tests.test_split_unicode_no_match_returns_subject, "test_split_unicode_no_match_returns_subject")
 		end
 
 feature {NONE} -- Implementation

@@ -114,14 +114,21 @@
 
             <div class="api-section">
                 <h3>SIMPLE_REGEX</h3>
-                <div class="signature">make (pattern: STRING)</div>
-                <div class="signature">match (subject: STRING): SIMPLE_REGEX_MATCH</div>
-                <div class="signature">match_all (subject: STRING): SIMPLE_REGEX_MATCH_LIST</div>
-                <div class="signature">replace_first (subject, replacement: STRING): STRING</div>
-                <div class="signature">replace_all (subject, replacement: STRING): STRING</div>
-                <div class="signature">split (subject: STRING): LIST [STRING]</div>
+                <div class="signature">make_from_pattern (a_pattern: READABLE_STRING_GENERAL)</div>
+                <div class="signature">match (a_subject: READABLE_STRING_GENERAL): SIMPLE_REGEX_MATCH</div>
+                <div class="signature">match_all (a_subject: READABLE_STRING_GENERAL): SIMPLE_REGEX_MATCH_LIST</div>
+                <div class="signature">replace (a_subject, a_replacement: READABLE_STRING_GENERAL): STRING_32</div>
+                <div class="signature">replace_all (a_subject, a_replacement: READABLE_STRING_GENERAL): STRING_32</div>
+                <div class="signature">split (a_subject: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]</div>
+                <div class="signature">split_by_pattern (a_pattern, a_subject: READABLE_STRING_GENERAL): ARRAYED_LIST [STRING_32]</div>
                 <div class="signature">case_insensitive: SIMPLE_REGEX</div>
                 <div class="signature">multiline: SIMPLE_REGEX</div>
+                <p>Subjects may be narrow or wide (<code>STRING_8</code>, <code>STRING_32</code>,
+                <code>IMMUTABLE_STRING_32</code>). Positions and pieces are in code points of the
+                subject, and <code>split</code> agrees with <code>match_all</code> on the same
+                subject. Before 1.0.1, <code>split</code> and <code>split_by_pattern</code> raised
+                a <code>subject_is_string</code> precondition violation on any non-8-bit subject;
+                see the CHANGELOG.</p>
             </div>
 
             <div class="api-section">

@@ -271,6 +271,22 @@ builder := builder.group (agent (b: SIMPLE_REGEX_BUILDER): SIMPLE_REGEX_BUILDER
     do Result := b.digit.exactly (4) end)
 ```
 
+## Unicode and String Types
+
+Every feature that takes a subject accepts any `READABLE_STRING_GENERAL` -
+`STRING_8`, `STRING_32` or `IMMUTABLE_STRING_32` - and reports positions and
+returns pieces in **code points of that subject**, so an astral-plane character
+(above U+FFFF) counts as one position, not two.
+
+```eiffel
+create regex.make_from_pattern (",")
+parts := regex.split (wide_subject)      -- ARRAYED_LIST [STRING_32]
+matches := regex.match_all (wide_subject) -- same pieces, same positions
+```
+
+`split` and `match_all` are guaranteed to agree on the same subject. Prior to
+1.0.1 `split` did not - see the CHANGELOG for the defect and its disclosure.
+
 ## Safety Features
 
 ```eiffel
@@ -289,11 +305,11 @@ end
 
 ## Testing
 
-126/127 tests passing (1 known Gobo limitation with Unicode properties):
+158/158 tests passing (clean compile, F_code):
 
 ```bash
-ec.exe -batch -config simple_regex.ecf -target simple_regex_tests -c_compile
-./EIFGENs/simple_regex_tests/W_code/simple_regex.exe
+ec.sh test -config simple_regex.ecf -target simple_regex_tests
+./EIFGENs/simple_regex_tests/F_code/simple_regex.exe
 ```
 
 ## License
