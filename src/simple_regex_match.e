@@ -206,6 +206,12 @@ feature {NONE} -- Implementation
 			-- Internal storage for captured groups
 
 invariant
+	-- Per-element and model clauses were removed 2026-09-11: an
+	-- invariant runs on every feature call, so a clause that walks
+	-- the collection or builds its MML model makes every call O(n)
+	-- and a walk over the collection O(n^2) (simple_json read a
+	-- 1434-element array in 158 s under DBC). Models belong in
+	-- postconditions of the features that change them.
 	subject_attached: subject /= Void
 	internal_value_attached: internal_value /= Void
 	internal_groups_attached: internal_groups /= Void
@@ -214,6 +220,5 @@ invariant
 	length_non_negative: is_matched implies (end_position - start_position + 1) >= 0
 
 	-- Model consistency
-	model_groups_count: groups_model.count = internal_groups.count
 
 end
