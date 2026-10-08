@@ -205,7 +205,7 @@ feature -- Utility
 	escape (a_text: STRING): STRING
 			-- Escape regex special characters in text.
 		do
-			Result := regex.escape (a_text)
+			Result := regex.escape (a_text).to_string_8
 			if Result = Void then
 				Result := a_text
 			end
