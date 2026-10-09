@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- The `gobo_capability_tests` root is now `GOBO_TEST_RUNNER` (that cluster has no TEST_APP; fixes VD20).
+- Compiler warning cleanup (`SIMPLE_REGEX_QUICK.escape` no longer uses the obsolete `as_string_8`).
+
 ### Changed
 - Class invariants are O(1) again: clauses that built an MML model (`x_model.count = count`) or walked a collection on every feature call were removed. An invariant runs on every call, so those made each call O(n) and any loop over the object O(n^2); simple_json read a 1434-element array in 158 s under DBC before the fix. Model and per-element facts stay in the postconditions of the features that establish them.
 - Testing config updates, AutoTest fixes, .gitignore cleanup
